@@ -1,8 +1,9 @@
 import React from "react";
-import LegalShell, { WAITLIST_EMAIL, getLang } from "../components/layout/LegalShell";
+import LegalShell, { WAITLIST_EMAIL } from "../components/layout/LegalShell";
+import { useLanguage } from "../context/LanguageContext";
 
 function SaatlikAyetPrivacyPage() {
-    const lang = getLang();
+    const { lang } = useLanguage();
 
     if (lang === "tr") {
         return (

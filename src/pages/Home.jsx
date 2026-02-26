@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
 import { DisabledCTA } from "../components/common/Buttons";
-import { WAITLIST_EMAIL, getLang, setLangPersisted } from "../constants";
+import { WAITLIST_EMAIL } from "../constants";
+import { useLanguage } from "../context/LanguageContext";
 
 const GlobalStyles = () => (
     <style>{`
@@ -24,7 +25,7 @@ function Home() {
     const mouse = useRef({ x: 0, y: 0 });
 
     const [activeScene, setActiveScene] = useState(0);
-    const [lang, setLang] = useState(() => getLang());
+    const { lang, toggleLanguage } = useLanguage();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
 
     useEffect(() => {
@@ -143,11 +144,7 @@ function Home() {
                             {lang === "tr" ? "İletişim" : "Contact"}
                         </Link>
                         <button
-                            onClick={() => {
-                                const next = lang === "en" ? "tr" : "en";
-                                setLang(next);
-                                setLangPersisted(next);
-                            }}
+                            onClick={toggleLanguage}
                             className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all"
                         >
                             {lang === "en" ? "TR" : "EN"}

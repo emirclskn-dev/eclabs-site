@@ -1,7 +1,9 @@
 import React from "react";
 import LegalShell, { WAITLIST_EMAIL } from "../components/layout/LegalShell";
+import { useLanguage } from "../context/LanguageContext";
 
 function AtlaslyPrivacyPage() {
+    const { lang } = useLanguage();
     return (
         <LegalShell title="Atlasly – Privacy Policy">
             <p>Atlasly is a private travel journal application designed to help you organize your travel memories. We prioritize your privacy and transparency regarding data usage.</p>

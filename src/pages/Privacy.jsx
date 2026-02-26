@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LegalShell, { WAITLIST_EMAIL, getLang } from "../components/layout/LegalShell";
+import LegalShell, { WAITLIST_EMAIL } from "../components/layout/LegalShell";
+import { useLanguage } from "../context/LanguageContext";
 
 function PrivacyPage() {
-    const lang = getLang();
+    const { lang } = useLanguage();
 
     if (lang === "en") {
         return (

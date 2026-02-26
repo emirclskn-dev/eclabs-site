@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { WAITLIST_EMAIL, getLang, setLangPersisted } from "../../constants";
+import { WAITLIST_EMAIL } from "../../constants";
+import { useLanguage } from "../../context/LanguageContext";
 
 const GlobalStyles = () => (
     <style>{`
@@ -16,15 +17,7 @@ const GlobalStyles = () => (
 );
 
 function LegalShell({ title, children }) {
-    const [lang, setLang] = useState(() => getLang());
-
-    const toggleLang = () => {
-        const next = lang === "en" ? "tr" : "en";
-        setLang(next);
-        setLangPersisted(next);
-        // Force a small delay then re-render check if needed, 
-        // but since we use state locally it should react.
-    };
+    const { lang, toggleLanguage } = useLanguage();
 
     return (
         <div
@@ -47,7 +40,7 @@ function LegalShell({ title, children }) {
                             {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
                         </Link>
                         <button
-                            onClick={toggleLang}
+                            onClick={toggleLanguage}
                             className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all"
                         >
                             {lang === "en" ? "TR" : "EN"}
@@ -71,4 +64,4 @@ function LegalShell({ title, children }) {
 }
 
 export default LegalShell;
-export { WAITLIST_EMAIL, getLang, GlobalStyles };
+export { WAITLIST_EMAIL, GlobalStyles };

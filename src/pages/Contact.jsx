@@ -1,8 +1,9 @@
 import React from "react";
-import LegalShell, { WAITLIST_EMAIL, getLang } from "../components/layout/LegalShell";
+import LegalShell, { WAITLIST_EMAIL } from "../components/layout/LegalShell";
+import { useLanguage } from "../context/LanguageContext";
 
 function ContactPage() {
-    const lang = getLang();
+    const { lang } = useLanguage();
     return (
         <LegalShell title={lang === "tr" ? "İletişim" : "Contact"}>
             <p>{lang === "tr" ? "ECLABS ile iletişime geçmek için aşağıdaki butonu kullanabilirsin." : "Use the button below to contact ECLABS."}</p>
