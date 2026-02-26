@@ -1,9 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-const WAITLIST_EMAIL = "support@eclabs.tr";
-
-const getLang = () => (typeof window !== "undefined" ? localStorage.getItem("eclabs_lang") || "tr" : "tr");
+import { WAITLIST_EMAIL, getLang, setLangPersisted } from "../../constants";
 
 const GlobalStyles = () => (
     <style>{`
@@ -19,7 +16,16 @@ const GlobalStyles = () => (
 );
 
 function LegalShell({ title, children }) {
-    const lang = getLang();
+    const [lang, setLang] = useState(() => getLang());
+
+    const toggleLang = () => {
+        const next = lang === "en" ? "tr" : "en";
+        setLang(next);
+        setLangPersisted(next);
+        // Force a small delay then re-render check if needed, 
+        // but since we use state locally it should react.
+    };
+
     return (
         <div
             className="relative h-screen overflow-y-auto bg-black text-white"
@@ -36,9 +42,17 @@ function LegalShell({ title, children }) {
                     <Link to="/" className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400 opacity-70 hover:opacity-100">
                         ECLABS
                     </Link>
-                    <Link to="/contact" className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
-                        {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
-                    </Link>
+                    <div className="flex items-center gap-3">
+                        <Link to="/contact" className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
+                            {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
+                        </Link>
+                        <button
+                            onClick={toggleLang}
+                            className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all"
+                        >
+                            {lang === "en" ? "TR" : "EN"}
+                        </button>
+                    </div>
                 </div>
 
                 <h1 className="text-3xl md:text-4xl font-display font-bold tracking-tight">{title}</h1>
