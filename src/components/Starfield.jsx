@@ -146,13 +146,13 @@ const Starfield = ({
 
             let newScene = 0;
             const targetColor = new THREE.Color(0x22d3ee);
-            if (t < 0.15) {
+            if (t < 0.16) {
                 newScene = 0;
                 targetColor.set(0x22d3ee);
-            } else if (t < 0.45) {
+            } else if (t < 0.49) {
                 newScene = 1;
                 targetColor.set(0x22d3ee);
-            } else if (t < 0.75) {
+            } else if (t < 0.83) {
                 newScene = 2;
                 targetColor.set(0xf59e0b);
             } else {

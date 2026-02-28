@@ -16,6 +16,40 @@ const GlobalStyles = () => (
     * { box-sizing: border-box; -ms-overflow-style: none; scrollbar-width: none; }
     a, button { cursor: pointer; }
     button:focus-visible, a:focus-visible { outline: 2px solid #22D3EE; outline-offset: 4px; }
+    
+    .scene-container { perspective: 1500px; transform-style: preserve-3d; }
+    .scene-card { transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1); transform-style: preserve-3d; backface-visibility: hidden; }
+    
+    .star-particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        filter: blur(1px);
+        box-shadow: 0 0 10px white, 0 0 20px #22D3EE;
+        pointer-events: none;
+        transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 15;
+    }
+
+    .logo-space-active {
+        background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+            rgba(34, 211, 238, 0.9) 0%, 
+            rgba(168, 85, 247, 0.7) 25%, 
+            rgba(34, 211, 238, 0.3) 50%, 
+            transparent 80%),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"),
+            radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        background-size: 150% 150%, 300px 300px, 100% 100%;
+        background-position: var(--bg-x, 50%) var(--bg-y, 50%), center, center;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent !important;
+        text-shadow: none !important;
+        transition: background-position 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+        filter: drop-shadow(0 0 25px rgba(34, 211, 238, 0.5)) brightness(1.2);
+    }
   `}</style>
 );
 
@@ -27,17 +61,19 @@ function Home() {
     const [activeScene, setActiveScene] = useState(0);
     const { lang, toggleLanguage } = useLanguage();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
+    const [logoHover, setLogoHover] = useState({ x: 0, y: 0, active: false });
+    const logoRef = useRef(null);
 
     useEffect(() => {
         const handleWheel = (e) => {
-            targetScroll.current = Math.min(Math.max(targetScroll.current + e.deltaY * 0.00025, 0), 1);
+            targetScroll.current = Math.min(Math.max(targetScroll.current + e.deltaY * 0.0004, 0), 1);
         };
 
         let touchY = 0;
         const handleTouchStart = (e) => (touchY = e.touches[0].clientY);
         const handleTouchMove = (e) => {
             const delta = touchY - e.touches[0].clientY;
-            targetScroll.current = Math.min(Math.max(targetScroll.current + delta * 0.0008, 0), 1);
+            targetScroll.current = Math.min(Math.max(targetScroll.current + delta * 0.001, 0), 1);
             touchY = e.touches[0].clientY;
         };
 
@@ -60,7 +96,7 @@ function Home() {
     }, []);
 
     const setScene = (sceneIndex) => {
-        const targets = [0.02, 0.30, 0.60, 0.92];
+        const targets = [0.0, 0.33, 0.66, 1.0];
         const clamped = Math.max(0, Math.min(sceneIndex, targets.length - 1));
         targetScroll.current = targets[clamped];
         currentScroll.current = targets[clamped];
@@ -116,7 +152,7 @@ function Home() {
                 </div>
             )}
 
-            <div className="relative z-10 w-full h-full pointer-events-none">
+            <div className="relative z-10 w-full h-full pointer-events-none scene-container">
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
                     <div className="flex flex-col items-center gap-3">
                         {[0, 1, 2, 3].map((i) => (
@@ -152,13 +188,58 @@ function Home() {
                     </div>
                 </nav>
 
-                <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-1000 ${activeScene === 0 ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-10 scale-95"}`}>
+                {/* Scene 0: Intro (Marka Logosu) */}
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    style={{
+                        opacity: activeScene === 0 ? 1 : 0,
+                        transform: activeScene === 0
+                            ? "translateZ(0) rotateY(0) scale(1)"
+                            : activeScene > 0
+                                ? "translateZ(-800px) rotateY(-45deg) translateX(-50%)"
+                                : "translateZ(-400px) rotateY(20deg) translateX(30%)",
+                        filter: activeScene === 0 ? "blur(0px)" : "blur(20px)"
+                    }}
+                >
                     <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan-500 to-transparent mb-8 animate-pulse" />
-                    <h1 className="text-6xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">ECLABS.</h1>
+                    <h1
+                        ref={logoRef}
+                        onMouseMove={(e) => {
+                            if (!logoRef.current) return;
+                            const rect = logoRef.current.getBoundingClientRect();
+                            const x = ((e.clientX - rect.left) / rect.width) * 100;
+                            const y = ((e.clientY - rect.top) / rect.height) * 100;
+                            setLogoHover({ x, y, active: true });
+                        }}
+                        onMouseEnter={() => setLogoHover(prev => ({ ...prev, active: true }))}
+                        onMouseLeave={() => setLogoHover(prev => ({ ...prev, active: false }))}
+                        className={`text-6xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center transition-all duration-700 select-none ${logoHover.active ? "logo-space-active scale-[1.02]" : "text-white"
+                            }`}
+                        style={{
+                            ...(logoHover.active ? {} : { filter: "drop-shadow(0 0 50px rgba(255,255,255,0.2))" }),
+                            "--mouse-x": `${logoHover.x}%`,
+                            "--mouse-y": `${logoHover.y}%`,
+                            "--bg-x": `${50 + (logoHover.x - 50) * 0.2}%`,
+                            "--bg-y": `${50 + (logoHover.y - 50) * 0.2}%`,
+                        }}
+                    >ECLABS.</h1>
                     <p className="text-cyan-400 text-[10px] tracking-[0.6em] uppercase animate-pulse">{t_copy.intro}</p>
                 </div>
 
-                <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 px-6 ${activeScene === 1 ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-95"}`}>
+                {/* Scene 1: Atlasly */}
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    style={{
+                        opacity: activeScene === 1 ? 1 : 0,
+                        transform: activeScene === 1
+                            ? "translateZ(0) rotateY(0) scale(1)"
+                            : activeScene > 1
+                                ? "translateZ(-1200px) rotateY(-70deg) translateX(-120%)"
+                                : "translateZ(-1800px) rotateY(70deg) translateX(150%)",
+                        filter: activeScene === 1 ? "blur(0px)" : "blur(40px)",
+                        zIndex: activeScene === 1 ? 20 : 10
+                    }}
+                >
                     <AppIcon src="/atlasly-new.png" alt="Atlasly" fallbackGradient="from-cyan-500 to-blue-600" glowColor="bg-cyan-500" />
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 1 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-[8px] text-cyan-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.atlasly_badge}</div>
@@ -171,7 +252,20 @@ function Home() {
                     </div>
                 </div>
 
-                <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 px-6 ${activeScene === 2 ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-95"}`}>
+                {/* Scene 2: SaatlikAyet */}
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    style={{
+                        opacity: activeScene === 2 ? 1 : 0,
+                        transform: activeScene === 2
+                            ? "translateZ(0) rotateY(0) scale(1)"
+                            : activeScene > 2
+                                ? "translateZ(-1200px) rotateY(-70deg) translateX(-120%)"
+                                : "translateZ(-1800px) rotateY(70deg) translateX(150%)",
+                        filter: activeScene === 2 ? "blur(0px)" : "blur(40px)",
+                        zIndex: activeScene === 2 ? 20 : 10
+                    }}
+                >
                     <AppIcon src="/saatlikayet-icon.png" alt="SaatlikAyet" fallbackGradient="from-amber-500 to-orange-600" glowColor="bg-amber-500" />
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 2 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[8px] text-amber-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.saatlikayet_badge}</div>
@@ -184,7 +278,20 @@ function Home() {
                     </div>
                 </div>
 
-                <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 px-6 ${activeScene === 3 ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-10 scale-95"}`}>
+                {/* Scene 3: Nova Gaia */}
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    style={{
+                        opacity: activeScene === 3 ? 1 : 0,
+                        transform: activeScene === 3
+                            ? "translateZ(0) rotateY(0) scale(1)"
+                            : activeScene > 3
+                                ? "translateZ(-1200px) rotateY(-70deg) translateX(-120%)"
+                                : "translateZ(-1800px) rotateY(70deg) translateX(150%)",
+                        filter: activeScene === 3 ? "blur(0px)" : "blur(40px)",
+                        zIndex: activeScene === 3 ? 20 : 10
+                    }}
+                >
                     <AppIcon src="/novagaia-icon.png" alt="Nova Gaia" fallbackGradient="from-purple-600 to-indigo-800" glowColor="bg-purple-500" />
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 3 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[8px] text-purple-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_badge}</div>
@@ -192,6 +299,25 @@ function Home() {
                         <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_desc}</p>
                     </div>
                 </div>
+
+                {/* Orbital Star Particles (Trails) */}
+                {[...Array(6)].map((_, i) => (
+                    <div
+                        key={`star-${i}`}
+                        className="star-particle"
+                        style={{
+                            opacity: activeScene === 0 ? 0 : 0.6,
+                            transform: activeScene === 0
+                                ? `translateZ(${-500 - i * 100}px) rotateY(${i * 60}deg) translateX(${100 + i * 50}%)`
+                                : activeScene === 1
+                                    ? `translateZ(${-200 - i * 50}px) rotateY(${10 - i * 5}deg) translateX(${-10 + i * 20}%)`
+                                    : activeScene === 2
+                                        ? `translateZ(${-200 - i * 50}px) rotateY(${-10 + i * 5}deg) translateX(${10 - i * 20}%)`
+                                        : `translateZ(${-400 - i * 100}px) rotateY(${-45 + i * 15}deg) translateX(${-50 + i * 30}%)`,
+                            boxShadow: `0 0 10px white, 0 0 20px ${activeScene === 2 ? '#f59e0b' : activeScene === 3 ? '#a855f7' : '#22D3EE'}`
+                        }}
+                    />
+                ))}
 
                 <footer className="absolute bottom-0 w-full p-10 flex justify-between items-center opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50">© 2026 ECLABS • {WAITLIST_EMAIL}</div>
