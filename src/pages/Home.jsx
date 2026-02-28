@@ -33,24 +33,11 @@ const GlobalStyles = () => (
         z-index: 15;
     }
 
-    .logo-space-active {
-        background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-            rgba(34, 211, 238, 0.9) 0%, 
-            rgba(168, 85, 247, 0.7) 25%, 
-            rgba(34, 211, 238, 0.3) 50%, 
-            transparent 80%),
-            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"),
-            radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
-        background-size: 150% 150%, 300px 300px, 100% 100%;
-        background-position: var(--bg-x, 50%) var(--bg-y, 50%), center, center;
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent !important;
-        text-shadow: none !important;
-        transition: background-position 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
-        filter: drop-shadow(0 0 25px rgba(34, 211, 238, 0.5)) brightness(1.2);
+    @keyframes star-pulse {
+        0%, 100% { opacity: 0.8; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.1); }
     }
-  `}</style>
+    `}</style>
 );
 
 function Home() {
@@ -61,8 +48,6 @@ function Home() {
     const [activeScene, setActiveScene] = useState(0);
     const { lang, toggleLanguage } = useLanguage();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
-    const [logoHover, setLogoHover] = useState({ x: 0, y: 0, active: false });
-    const logoRef = useRef(null);
 
     useEffect(() => {
         const handleWheel = (e) => {
@@ -190,7 +175,7 @@ function Home() {
 
                 {/* Scene 0: Intro (Marka Logosu) */}
                 <div
-                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 0 ? "pointer-events-auto" : "pointer-events-none"}`}
                     style={{
                         opacity: activeScene === 0 ? 1 : 0,
                         transform: activeScene === 0
@@ -202,33 +187,15 @@ function Home() {
                     }}
                 >
                     <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan-500 to-transparent mb-8 animate-pulse" />
-                    <h1
-                        ref={logoRef}
-                        onMouseMove={(e) => {
-                            if (!logoRef.current) return;
-                            const rect = logoRef.current.getBoundingClientRect();
-                            const x = ((e.clientX - rect.left) / rect.width) * 100;
-                            const y = ((e.clientY - rect.top) / rect.height) * 100;
-                            setLogoHover({ x, y, active: true });
-                        }}
-                        onMouseEnter={() => setLogoHover(prev => ({ ...prev, active: true }))}
-                        onMouseLeave={() => setLogoHover(prev => ({ ...prev, active: false }))}
-                        className={`text-6xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center transition-all duration-700 select-none ${logoHover.active ? "logo-space-active scale-[1.02]" : "text-white"
-                            }`}
-                        style={{
-                            ...(logoHover.active ? {} : { filter: "drop-shadow(0 0 50px rgba(255,255,255,0.2))" }),
-                            "--mouse-x": `${logoHover.x}%`,
-                            "--mouse-y": `${logoHover.y}%`,
-                            "--bg-x": `${50 + (logoHover.x - 50) * 0.2}%`,
-                            "--bg-y": `${50 + (logoHover.y - 50) * 0.2}%`,
-                        }}
-                    >ECLABS.</h1>
+                    <h1 className="text-6xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none text-white opacity-80">
+                        ECLABS.
+                    </h1>
                     <p className="text-cyan-400 text-[10px] tracking-[0.6em] uppercase animate-pulse">{t_copy.intro}</p>
                 </div>
 
                 {/* Scene 1: Atlasly */}
                 <div
-                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 1 ? "pointer-events-auto" : "pointer-events-none"}`}
                     style={{
                         opacity: activeScene === 1 ? 1 : 0,
                         transform: activeScene === 1
@@ -254,7 +221,7 @@ function Home() {
 
                 {/* Scene 2: SaatlikAyet */}
                 <div
-                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 2 ? "pointer-events-auto" : "pointer-events-none"}`}
                     style={{
                         opacity: activeScene === 2 ? 1 : 0,
                         transform: activeScene === 2
@@ -280,7 +247,7 @@ function Home() {
 
                 {/* Scene 3: Nova Gaia */}
                 <div
-                    className="absolute inset-0 flex flex-col items-center justify-center px-6 scene-card"
+                    className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 3 ? "pointer-events-auto" : "pointer-events-none"}`}
                     style={{
                         opacity: activeScene === 3 ? 1 : 0,
                         transform: activeScene === 3
