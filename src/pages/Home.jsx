@@ -158,7 +158,7 @@ function Home() {
                     <div className="mt-4 h-24 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent" />
                 </div>
 
-                <nav className="absolute top-0 w-full p-8 flex justify-between items-center opacity-40">
+                <nav className="absolute top-0 z-40 w-full p-8 flex justify-between items-center opacity-40">
                     <div className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400">ECLABS</div>
                     <div className="flex items-center gap-3 pointer-events-auto">
                         <Link to="/contact" className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
@@ -286,7 +286,7 @@ function Home() {
                     />
                 ))}
 
-                <footer className="absolute bottom-0 w-full p-10 flex justify-between items-center opacity-30">
+                <footer className="absolute bottom-0 z-40 w-full p-10 flex justify-between items-center opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50">© 2026 ECLABS • {WAITLIST_EMAIL}</div>
                     <div className="flex gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
                         <Link to="/privacy" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "Gizlilik" : "Privacy"}</Link>
