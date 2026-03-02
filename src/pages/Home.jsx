@@ -48,8 +48,12 @@ function Home() {
     const [activeScene, setActiveScene] = useState(0);
     const { lang, toggleLanguage } = useLanguage();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        window.addEventListener("resize", handleResize);
+
         const handleWheel = (e) => {
             targetScroll.current = Math.min(Math.max(targetScroll.current + e.deltaY * 0.0004, 0), 1);
         };
@@ -73,6 +77,7 @@ function Home() {
         if (window.innerWidth >= 768) window.addEventListener("mousemove", handleMouseMove);
 
         return () => {
+            window.removeEventListener("resize", handleResize);
             window.removeEventListener("wheel", handleWheel);
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchmove", handleTouchMove);
@@ -138,7 +143,7 @@ function Home() {
             )}
 
             <div className="relative z-10 w-full h-full pointer-events-none scene-container">
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
+                <div className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
                     <div className="flex flex-col items-center gap-3">
                         {[0, 1, 2, 3].map((i) => (
                             <button
@@ -158,7 +163,7 @@ function Home() {
                     <div className="mt-4 h-24 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent" />
                 </div>
 
-                <nav className="absolute top-0 z-40 w-full p-8 flex justify-between items-center opacity-40">
+                <nav className="absolute top-0 z-40 w-full p-5 md:p-8 flex justify-between items-center opacity-40">
                     <div className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400">ECLABS</div>
                     <div className="flex items-center gap-3 pointer-events-auto">
                         <Link to="/contact" className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
@@ -181,16 +186,16 @@ function Home() {
                         transform: activeScene === 0
                             ? "translateZ(0) rotateY(0) scale(1)"
                             : activeScene > 0
-                                ? "translateZ(-800px) rotateY(-45deg) translateX(-50%)"
-                                : "translateZ(-400px) rotateY(20deg) translateX(30%)",
+                                ? (isMobile ? "translateZ(-400px) rotateY(-30deg) translateX(-20%)" : "translateZ(-800px) rotateY(-45deg) translateX(-50%)")
+                                : (isMobile ? "translateZ(-200px) rotateY(15deg) translateX(10%)" : "translateZ(-400px) rotateY(20deg) translateX(30%)"),
                         filter: activeScene === 0 ? "blur(0px)" : "blur(20px)"
                     }}
                 >
                     <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan-500 to-transparent mb-8 animate-pulse" />
-                    <h1 className="text-6xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none text-white opacity-80">
+                    <h1 className="text-5xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none text-white opacity-80">
                         ECLABS.
                     </h1>
-                    <p className="text-cyan-400 text-[10px] tracking-[0.6em] uppercase animate-pulse">{t_copy.intro}</p>
+                    <p className="text-cyan-400 text-[10px] tracking-[0.6em] uppercase animate-pulse whitespace-nowrap">{t_copy.intro}</p>
                 </div>
 
                 {/* Scene 1: Atlasly */}
@@ -201,8 +206,8 @@ function Home() {
                         transform: activeScene === 1
                             ? "translateZ(0) rotateY(0) scale(1)"
                             : activeScene > 1
-                                ? "translateZ(-1200px) rotateY(-70deg) translateX(-120%)"
-                                : "translateZ(-1800px) rotateY(70deg) translateX(150%)",
+                                ? (isMobile ? "translateZ(-600px) rotateY(-40deg) translateX(-40%)" : "translateZ(-1200px) rotateY(-70deg) translateX(-120%)")
+                                : (isMobile ? "translateZ(-800px) rotateY(40deg) translateX(50%)" : "translateZ(-1800px) rotateY(70deg) translateX(150%)"),
                         filter: activeScene === 1 ? "blur(0px)" : "blur(40px)",
                         zIndex: activeScene === 1 ? 20 : 10
                     }}
@@ -227,8 +232,8 @@ function Home() {
                         transform: activeScene === 2
                             ? "translateZ(0) rotateY(0) scale(1)"
                             : activeScene > 2
-                                ? "translateZ(-1200px) rotateY(-70deg) translateX(-120%)"
-                                : "translateZ(-1800px) rotateY(70deg) translateX(150%)",
+                                ? (isMobile ? "translateZ(-600px) rotateY(-40deg) translateX(-40%)" : "translateZ(-1200px) rotateY(-70deg) translateX(-120%)")
+                                : (isMobile ? "translateZ(-800px) rotateY(40deg) translateX(50%)" : "translateZ(-1800px) rotateY(70deg) translateX(150%)"),
                         filter: activeScene === 2 ? "blur(0px)" : "blur(40px)",
                         zIndex: activeScene === 2 ? 20 : 10
                     }}
@@ -253,8 +258,8 @@ function Home() {
                         transform: activeScene === 3
                             ? "translateZ(0) rotateY(0) scale(1)"
                             : activeScene > 3
-                                ? "translateZ(-1200px) rotateY(-70deg) translateX(-120%)"
-                                : "translateZ(-1800px) rotateY(70deg) translateX(150%)",
+                                ? (isMobile ? "translateZ(-600px) rotateY(-40deg) translateX(-40%)" : "translateZ(-1200px) rotateY(-70deg) translateX(-120%)")
+                                : (isMobile ? "translateZ(-800px) rotateY(40deg) translateX(50%)" : "translateZ(-1800px) rotateY(70deg) translateX(150%)"),
                         filter: activeScene === 3 ? "blur(0px)" : "blur(40px)",
                         zIndex: activeScene === 3 ? 20 : 10
                     }}
@@ -286,9 +291,9 @@ function Home() {
                     />
                 ))}
 
-                <footer className="absolute bottom-0 z-40 w-full p-10 flex justify-between items-center opacity-30">
+                <footer className="absolute bottom-0 z-40 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50">© 2026 ECLABS • {WAITLIST_EMAIL}</div>
-                    <div className="flex gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
+                    <div className="flex gap-6 md:gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
                         <Link to="/privacy" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "Gizlilik" : "Privacy"}</Link>
                         <Link to="/terms" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "Şartlar" : "Terms"}</Link>
                         <Link to="/contact" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "İletişim" : "Contact"}</Link>
