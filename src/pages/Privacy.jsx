@@ -2,65 +2,138 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LegalShell, { WAITLIST_EMAIL } from "../components/layout/LegalShell";
 import { useLanguage } from "../context/LanguageContext";
+import { Calendar, ArrowUpRight, Mail } from "lucide-react";
+
+const TRANSLATIONS = {
+    tr: {
+        title: "Gizlilik Politikası",
+        updated: "Son güncelleme: 26 Şubat 2026",
+        intro: "Bu web sitesi (ECLABS) ürün tanıtımı ve iletişim amaçlı bir 'landing' sayfasıdır. Bu sitede kullanıcı hesabı oluşturulmaz ve doğrudan profil/üyelik bazlı kişisel veri işleme yapılmaz.",
+        sections: [
+            {
+                title: "Toplanan Veriler",
+                items: [
+                    { label: "İletişim e-postası:", text: "\"Beni Bilgilendir\" ve \"Email\" butonları cihazındaki e-posta uygulamasını açar." },
+                    { label: "Teknik günlükler (log):", text: "Güvenlik ve hata ayıklama amacıyla IP adresi gibi sınırlı teknik veriler kaydedilebilir." },
+                ],
+            },
+            {
+                title: "Uygulamalarımıza Özel Politikalar",
+                links: [
+                    { label: "Atlasly Gizlilik Politikası", to: "/privacy-atlasly" },
+                    { label: "SaatlikAyet Gizlilik Politikası", to: "/privacy-saatlikayet" },
+                ],
+            },
+            {
+                title: "Çerezler",
+                text: "Bu sitede zorunlu olmayan çerezler kullanılmayabilir.",
+            },
+        ],
+        contact: "İletişim",
+    },
+    en: {
+        title: "Privacy Policy",
+        updated: "Last updated: February 26, 2026",
+        intro: "This website (ECLABS) is a landing page for product information and contact purposes. We do not provide user accounts on this site and we do not process profile-based personal data through a login system.",
+        sections: [
+            {
+                title: "Data We Collect",
+                items: [
+                    { label: "Contact email:", text: "\"Notify Me\" and \"Email\" buttons open your email app via a mailto link." },
+                    { label: "Technical logs:", text: "Our hosting provider may automatically record limited technical data for security and debugging purposes." },
+                    { label: "Analytics (optional):", text: "Aggregated traffic and performance metrics may be collected." },
+                ],
+            },
+            {
+                title: "App-Specific Policies",
+                links: [
+                    { label: "Atlasly Privacy Policy", to: "/privacy-atlasly" },
+                    { label: "SaatlikAyet Privacy Policy", to: "/privacy-saatlikayet" },
+                ],
+            },
+            {
+                title: "Cookies",
+                text: "We may not use non-essential cookies on this site.",
+            },
+            {
+                title: "Purpose and Legal Basis",
+                items: [
+                    { text: "Responding to contact requests (legitimate interests)." },
+                    { text: "Site security and debugging (legitimate interests)." },
+                ],
+            },
+        ],
+        contact: "Contact",
+    },
+};
 
 function PrivacyPage() {
     const { lang } = useLanguage();
-
-    if (lang === "en") {
-        return (
-            <LegalShell title="Privacy Policy">
-                <p>This website (ECLABS) is a landing page for product information and contact purposes. We do not provide user accounts on this site and we do not process profile-based personal data through a login system.</p>
-                <h2 className="mt-6 text-white font-bold tracking-tight">Data We Collect</h2>
-                <ul className="mt-3 list-disc pl-5 space-y-2">
-                    <li><span className="text-white/80 font-semibold">Contact email:</span> “Notify Me” and “Email” buttons open your email app via a mailto link.</li>
-                    <li><span className="text-white/80 font-semibold">Technical logs:</span> Our hosting provider may automatically record limited technical data for security and debugging purposes.</li>
-                    <li><span className="text-white/80 font-semibold">Analytics (optional):</span> Aggregated traffic and performance metrics may be collected.</li>
-                </ul>
-                <h2 className="mt-6 text-white font-bold tracking-tight">App-Specific Policies</h2>
-                <ul className="mt-3 list-disc pl-5 space-y-2">
-                    <li>
-                        <Link to="/privacy-atlasly" className="text-cyan-300 hover:text-cyan-200">Atlasly Privacy Policy</Link>
-                    </li>
-                    <li>
-                        <Link to="/privacy-saatlikayet" className="text-cyan-300 hover:text-cyan-200">SaatlikAyet Privacy Policy</Link>
-                    </li>
-                </ul>
-                <h2 className="mt-6 text-white font-bold tracking-tight">Cookies</h2>
-                <p className="mt-3">We may not use non-essential cookies on this site.</p>
-                <h2 className="mt-6 text-white font-bold tracking-tight">Purpose and Legal Basis</h2>
-                <ul className="mt-3 list-disc pl-5 space-y-2">
-                    <li>Responding to contact requests (legitimate interests).</li>
-                    <li>Site security and debugging (legitimate interests).</li>
-                </ul>
-                <p className="mt-6">Contact: <a className="text-cyan-300 hover:text-cyan-200" href={`mailto:${WAITLIST_EMAIL}`}>{WAITLIST_EMAIL}</a></p>
-                <p className="mt-2 text-white/40 text-xs">Last updated: February 26, 2026</p>
-            </LegalShell>
-        );
-    }
+    const copy = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
     return (
-        <LegalShell title="Gizlilik Politikası">
-            <p>Bu web sitesi (ECLABS) ürün tanıtımı ve iletişim amaçlı bir “landing” sayfasıdır. Bu sitede kullanıcı hesabı oluşturulmaz ve doğrudan profil/üyelik bazlı kişisel veri işleme yapılmaz.</p>
-            <h2 className="mt-6 text-white font-bold tracking-tight">Toplanan Veriler</h2>
-            <ul className="mt-3 list-disc pl-5 space-y-2">
-                <li><span className="text-white/80 font-semibold">İletişim e-postası:</span> “Beni Bilgilendir” ve “Email" butonları cihazındaki e-posta uygulamasını açar.</li>
-                <li><span className="text-white/80 font-semibold">Teknik günlükler (log):</span> Güvenlik ve hata ayıklama amacıyla IP adresi gibi sınırlı teknik veriler kaydedilebilir.</li>
-            </ul>
+        <LegalShell title={copy.title}>
+            <div className="max-w-2xl space-y-8">
+                {/* Date badge */}
+                <div className="inline-flex items-center gap-2 text-white/40 text-xs">
+                    <Calendar size={12} className="opacity-60" />
+                    {copy.updated}
+                </div>
 
-            <h2 className="mt-6 text-white font-bold tracking-tight">Uygulamalarımıza Özel Politikalar</h2>
-            <ul className="mt-3 list-disc pl-5 space-y-2">
-                <li>
-                    <Link to="/privacy-atlasly" className="text-cyan-300 hover:text-cyan-200">Atlasly Gizlilik Politikası</Link>
-                </li>
-                <li>
-                    <Link to="/privacy-saatlikayet" className="text-cyan-300 hover:text-cyan-200">SaatlikAyet Gizlilik Politikası</Link>
-                </li>
-            </ul>
+                <p className="leading-relaxed text-white/80">{copy.intro}</p>
 
-            <h2 className="mt-6 text-white font-bold tracking-tight">Çerezler</h2>
-            <p className="mt-3">Bu sitede zorunlu olmayan çerezler kullanılmayabilir.</p>
-            <p className="mt-6">İletişim: <a className="text-cyan-300 hover:text-cyan-200" href={`mailto:${WAITLIST_EMAIL}`}>{WAITLIST_EMAIL}</a></p>
-            <p className="mt-2 text-white/40 text-xs">Son güncelleme: 26 Şubat 2026</p>
+                {copy.sections.map((section) => (
+                    <section key={section.title} className="space-y-3">
+                        <h2 className="text-white font-bold tracking-tight border-l-2 border-cyan-500 pl-3">
+                            {section.title}
+                        </h2>
+
+                        {section.text && (
+                            <p className="leading-relaxed pl-3 text-white/70">{section.text}</p>
+                        )}
+
+                        {section.items && (
+                            <ul className="space-y-2 pl-3">
+                                {section.items.map((item, i) => (
+                                    <li key={i} className="flex gap-2 text-white/70 leading-relaxed">
+                                        {item.label && (
+                                            <span className="text-white/90 font-semibold shrink-0">{item.label}</span>
+                                        )}
+                                        {item.text}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        {section.links && (
+                            <ul className="space-y-2 pl-3">
+                                {section.links.map((link) => (
+                                    <li key={link.to}>
+                                        <Link
+                                            to={link.to}
+                                            className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
+                                        >
+                                            {link.label}
+                                            <ArrowUpRight size={12} className="opacity-60" />
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                ))}
+
+                <p className="pt-2 flex items-center gap-2 text-white/70">
+                    {copy.contact}:{" "}
+                    <a
+                        className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
+                        href={`mailto:${WAITLIST_EMAIL}`}
+                    >
+                        <Mail size={12} className="opacity-60" />
+                        {WAITLIST_EMAIL}
+                    </a>
+                </p>
+            </div>
         </LegalShell>
     );
 }
