@@ -6,7 +6,8 @@ const Starfield = ({
     currentScroll,
     mouse,
     onSceneChange,
-    onReady
+    onReady,
+    isLogoHovered
 }) => {
     const mountRef = useRef(null);
     const activeSceneRef = useRef(0);
@@ -22,6 +23,23 @@ const Starfield = ({
         const debug = new URLSearchParams(window.location.search).get("debug") === "1";
         let lastFpsT = performance.now();
         let frames = 0;
+
+        // Create a circular gradient texture for stars
+        const getStarTexture = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = 32;
+            canvas.height = 32;
+            const context = canvas.getContext("2d");
+            const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, "rgba(255,255,255,1)");
+            gradient.addColorStop(0.2, "rgba(255,255,255,0.8)");
+            gradient.addColorStop(0.5, "rgba(255,255,255,0.2)");
+            gradient.addColorStop(1, "rgba(0,0,0,0)");
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 32, 32);
+            const texture = new THREE.CanvasTexture(canvas);
+            return texture;
+        };
 
         let originalPositions;
         let velocities;
@@ -77,13 +95,17 @@ const Starfield = ({
             geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
             geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
+            const starTexture = getStarTexture();
+
             material = new THREE.PointsMaterial({
-                size: 0.11,
+                size: 0.4,
+                map: starTexture,
                 vertexColors: true,
                 transparent: true,
                 opacity: 0.92,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false,
+                alphaTest: 0.01,
             });
 
             particles = new THREE.Points(geometry, material);
@@ -129,9 +151,27 @@ const Starfield = ({
                     velocities[i3 + 2] += (dz / 8) * force * 0.6;
                 }
 
-                velocities[i3] += (originalPositions[i3] - posAttr[i3]) * 0.015;
-                velocities[i3 + 1] += (originalPositions[i3 + 1] - posAttr[i3 + 1]) * 0.015;
-                velocities[i3 + 2] += (originalPositions[i3 + 2] - posAttr[i3 + 2]) * 0.015;
+                // Gravity pull towards center when logo is hovered
+                if (isLogoHovered) {
+                    // Calculate vector to center (roughly 0,0, camera.position.z - some distance)
+                    const targetZ = camera.position.z - 50;
+                    const dirX = 0 - posAttr[i3];
+                    const dirY = 0 - posAttr[i3 + 1];
+                    const dirZ = targetZ - posAttr[i3 + 2];
+
+                    const distToCenter = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+                    if (distToCenter > 1) { // Prevent extreme speeds
+                        const pullForce = 0.05 / Math.max(distToCenter, 10); // Inverse square-ish pull
+                        velocities[i3] += dirX * pullForce;
+                        velocities[i3 + 1] += dirY * pullForce;
+                        velocities[i3 + 2] += dirZ * pullForce;
+                    }
+                } else {
+                    // Normal behavior: return to original positions
+                    velocities[i3] += (originalPositions[i3] - posAttr[i3]) * 0.015;
+                    velocities[i3 + 1] += (originalPositions[i3 + 1] - posAttr[i3 + 1]) * 0.015;
+                    velocities[i3 + 2] += (originalPositions[i3 + 2] - posAttr[i3 + 2]) * 0.015;
+                }
 
                 velocities[i3] *= 0.92;
                 velocities[i3 + 1] *= 0.92;

@@ -22,11 +22,11 @@ const GlobalStyles = () => (
     
     .star-particle {
         position: absolute;
-        width: 2px;
-        height: 2px;
+        width: 3px;
+        height: 3px;
         background: white;
         border-radius: 50%;
-        filter: blur(1px);
+        filter: blur(0.5px);
         box-shadow: 0 0 10px white, 0 0 20px #22D3EE;
         pointer-events: none;
         transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
@@ -36,6 +36,27 @@ const GlobalStyles = () => (
     @keyframes star-pulse {
         0%, 100% { opacity: 0.8; transform: scale(1); }
         50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .galactic-text {
+        position: relative;
+        color: white;
+        transition: color 0.5s ease;
+    }
+
+    .galactic-text.hovered {
+        color: transparent;
+        background-image: radial-gradient(circle at center, #ffffff 0%, #22D3EE 40%, #000000 100%);
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        animation: galactic-pan 3s ease-in-out infinite alternate;
+        text-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+    }
+
+    @keyframes galactic-pan {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
     }
     `}</style>
 );
@@ -49,6 +70,7 @@ function Home() {
     const { lang, toggleLanguage } = useLanguage();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [logoHover, setLogoHover] = useState(false);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -129,6 +151,7 @@ function Home() {
                 mouse={mouse}
                 onSceneChange={setActiveScene}
                 onReady={setIsStarfieldReady}
+                isLogoHovered={logoHover}
             />
 
             {!isStarfieldReady && (
@@ -192,7 +215,13 @@ function Home() {
                     }}
                 >
                     <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan-500 to-transparent mb-8 animate-pulse" />
-                    <h1 className="text-5xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none text-white opacity-80">
+                    <h1
+                        className={`text-5xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none opacity-80 galactic-text ${logoHover ? 'hovered' : ''}`}
+                        onMouseEnter={() => setLogoHover(true)}
+                        onMouseLeave={() => setLogoHover(false)}
+                        onTouchStart={() => setLogoHover(true)}
+                        onTouchEnd={() => setLogoHover(false)}
+                    >
                         ECLABS.
                     </h1>
                     <p className="text-cyan-400 text-[10px] tracking-[0.6em] uppercase animate-pulse whitespace-nowrap">{t_copy.intro}</p>
