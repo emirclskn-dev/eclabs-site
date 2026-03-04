@@ -20,13 +20,21 @@ export const SecondaryCTA = ({ href, label }) => (
     </a>
 );
 
-export const PrimaryCTA = ({ href, label }) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center justify-center px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-cyan-500 text-black hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all duration-300"
-    >
-        {label}
-    </a>
-);
+export const PrimaryCTA = ({ href, label, theme = "cyan" }) => {
+    const themeStyles = {
+        cyan: "bg-cyan-500 hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]",
+        amber: "bg-amber-500 hover:bg-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.4)]",
+        purple: "bg-purple-500 hover:bg-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+    };
+
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center justify-center px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-black transition-all duration-300 ${themeStyles[theme]}`}
+        >
+            {label}
+        </a>
+    );
+};

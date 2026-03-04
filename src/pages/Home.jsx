@@ -122,10 +122,10 @@ function Home() {
             saatlikayet_desc: "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
             novagaia_desc: "Post-human survival shooter. Short runs, high stakes, score-chasing.",
             atlasly_badge: "Out Now",
-            saatlikayet_badge: "App Store Review",
+            saatlikayet_badge: "Out Now",
             novagaia_badge: "In Development",
             atlasly_primary: "Download on App Store",
-            saatlikayet_primary: "Coming Soon to App Store",
+            saatlikayet_primary: "Download on App Store",
             novagaia_primary: "Playtest Coming Soon",
         },
         tr: {
@@ -134,10 +134,10 @@ function Home() {
             saatlikayet_desc: "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
             novagaia_desc: "Post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo, rekor odaklı.",
             atlasly_badge: "Yayında",
-            saatlikayet_badge: "App Store İncelemede",
+            saatlikayet_badge: "Yayında",
             novagaia_badge: "Geliştirme Aşamasında",
             atlasly_primary: "App Store'dan İndir",
-            saatlikayet_primary: "Yakında App Store’da",
+            saatlikayet_primary: "App Store'dan İndir",
             novagaia_primary: "Playtest Yakında",
         },
     }[lang];
@@ -280,7 +280,13 @@ function Home() {
                         <Link to="/privacy-saatlikayet" className="inline-block mb-6 text-[10px] text-amber-400/60 hover:text-amber-400 underline decoration-amber-400/20 underline-offset-4 transition-colors">
                             {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
                         </Link>
-                        <div className="flex items-center justify-center"><DisabledCTA label={t_copy.saatlikayet_primary} /></div>
+                        <div className="flex items-center justify-center">
+                            <PrimaryCTA
+                                label={t_copy.saatlikayet_primary}
+                                href="https://apps.apple.com/tr/app/saatlikayet/id6759116481?l=tr"
+                                theme="amber"
+                            />
+                        </div>
                     </div>
                 </div>
 
