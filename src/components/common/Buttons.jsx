@@ -19,3 +19,14 @@ export const SecondaryCTA = ({ href, label }) => (
         {label}
     </a>
 );
+
+export const PrimaryCTA = ({ href, label }) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-cyan-500 text-black hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all duration-300"
+    >
+        {label}
+    </a>
+);

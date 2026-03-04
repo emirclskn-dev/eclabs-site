@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
-import { DisabledCTA } from "../components/common/Buttons";
+import { DisabledCTA, PrimaryCTA } from "../components/common/Buttons";
 import { WAITLIST_EMAIL } from "../constants";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -121,10 +121,10 @@ function Home() {
             atlasly_desc: "Private travel journal. Mark countries, attach notes, and keep travel memories organized.",
             saatlikayet_desc: "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
             novagaia_desc: "Post-human survival shooter. Short runs, high stakes, score-chasing.",
-            atlasly_badge: "In Development",
+            atlasly_badge: "Out Now",
             saatlikayet_badge: "App Store Review",
             novagaia_badge: "In Development",
-            atlasly_primary: "In Development",
+            atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Coming Soon to App Store",
             novagaia_primary: "Playtest Coming Soon",
         },
@@ -133,10 +133,10 @@ function Home() {
             atlasly_desc: "Özel seyahat günlüğü. Ülkeleri işaretleyin, notlar ekleyin ve anılarınızı düzenleyin.",
             saatlikayet_desc: "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
             novagaia_desc: "Post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo, rekor odaklı.",
-            atlasly_badge: "Geliştirme Aşamasında",
+            atlasly_badge: "Yayında",
             saatlikayet_badge: "App Store İncelemede",
             novagaia_badge: "Geliştirme Aşamasında",
-            atlasly_primary: "Geliştirme Aşamasında",
+            atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "Yakında App Store’da",
             novagaia_primary: "Playtest Yakında",
         },
@@ -249,7 +249,12 @@ function Home() {
                         <Link to="/privacy-atlasly" className="inline-block mb-6 text-[10px] text-cyan-400/60 hover:text-cyan-400 underline decoration-cyan-400/20 underline-offset-4 transition-colors">
                             {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
                         </Link>
-                        <div className="flex items-center justify-center"><DisabledCTA label={t_copy.atlasly_primary} /></div>
+                        <div className="flex items-center justify-center">
+                            <PrimaryCTA
+                                label={t_copy.atlasly_primary}
+                                href="https://apps.apple.com/tr/app/atlasly/id6759877369?l=tr"
+                            />
+                        </div>
                     </div>
                 </div>
 
