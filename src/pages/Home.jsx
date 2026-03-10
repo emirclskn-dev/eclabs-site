@@ -108,7 +108,7 @@ function Home() {
     }, []);
 
     const setScene = (sceneIndex) => {
-        const targets = [0.0, 0.33, 0.66, 1.0];
+        const targets = [0.0, 0.25, 0.5, 0.75, 1.0];
         const clamped = Math.max(0, Math.min(sceneIndex, targets.length - 1));
         targetScroll.current = targets[clamped];
         currentScroll.current = targets[clamped];
@@ -121,24 +121,30 @@ function Home() {
             atlasly_desc: "Private travel journal. Mark countries, attach notes, and keep travel memories organized.",
             saatlikayet_desc: "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
             novagaia_desc: "Post-human survival shooter. Short runs, high stakes, score-chasing.",
+            novagaia_ascend_desc: "Build your structure rising to the sky. Release at the right moment, maintain balance and ascend in NovaGaia.",
             atlasly_badge: "Out Now",
             saatlikayet_badge: "Out Now",
-            novagaia_badge: "In Development",
+            novagaia_badge: "Legacy",
+            novagaia_ascend_badge: "Coming Soon",
             atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Download on App Store",
             novagaia_primary: "Playtest Coming Soon",
+            novagaia_ascend_primary: "Playtest Coming Soon",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
             atlasly_desc: "Özel seyahat günlüğü. Ülkeleri işaretleyin, notlar ekleyin ve anılarınızı düzenleyin.",
             saatlikayet_desc: "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
             novagaia_desc: "Post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo, rekor odaklı.",
+            novagaia_ascend_desc: "Gökyüzüne yükselen yapını inşa et. Doğru anda bırak, dengeyi koru ve NovaGaia’da yüksel.",
             atlasly_badge: "Yayında",
             saatlikayet_badge: "Yayında",
-            novagaia_badge: "Geliştirme Aşamasında",
+            novagaia_badge: "Klasik",
+            novagaia_ascend_badge: "Yakında",
             atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "App Store'dan İndir",
             novagaia_primary: "Playtest Yakında",
+            novagaia_ascend_primary: "Playtest Yakında",
         },
     }[lang];
 
@@ -168,7 +174,7 @@ function Home() {
             <div className="relative z-10 w-full h-full pointer-events-none scene-container">
                 <div className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
                     <div className="flex flex-col items-center gap-3">
-                        {[0, 1, 2, 3].map((i) => (
+                        {[0, 1, 2, 3, 4].map((i) => (
                             <button
                                 key={i}
                                 type="button"
@@ -309,6 +315,31 @@ function Home() {
                         <div className="inline-block px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[8px] text-purple-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">Nova Gaia</h2>
                         <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_desc}</p>
+                    </div>
+                </div>
+
+                {/* Scene 4: NovaGaia: Ascend */}
+                <div
+                    className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 4 ? "pointer-events-auto" : "pointer-events-none"}`}
+                    style={{
+                        opacity: activeScene === 4 ? 1 : 0,
+                        transform: activeScene === 4
+                            ? "translateZ(0) rotateY(0) scale(1)"
+                            : activeScene > 4
+                                ? (isMobile ? "translateZ(-600px) rotateY(-40deg) translateX(-40%)" : "translateZ(-1200px) rotateY(-70deg) translateX(-120%)")
+                                : (isMobile ? "translateZ(-800px) rotateY(40deg) translateX(50%)" : "translateZ(-1800px) rotateY(70deg) translateX(150%)"),
+                        filter: activeScene === 4 ? "blur(0px)" : "blur(40px)",
+                        zIndex: activeScene === 4 ? 20 : 10
+                    }}
+                >
+                    <AppIcon src="/novagaia-ascend.png" alt="NovaGaia: Ascend" fallbackGradient="from-orange-600 to-red-800" glowColor="bg-orange-500" />
+                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 4 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                        <div className="inline-block px-2 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-[8px] text-orange-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_ascend_badge}</div>
+                        <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">NovaGaia: Ascend</h2>
+                        <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_ascend_desc}</p>
+                        <div className="flex items-center justify-center mt-6">
+                            <DisabledCTA label={t_copy.novagaia_ascend_primary} />
+                        </div>
                     </div>
                 </div>
 
