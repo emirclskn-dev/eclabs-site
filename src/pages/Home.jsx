@@ -72,6 +72,8 @@ function Home() {
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [logoHover, setLogoHover] = useState(false);
+    const [showPeek, setShowPeek] = useState(false);
+    const hasPeeked = useRef(false);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -107,6 +109,16 @@ function Home() {
             window.removeEventListener("mousemove", handleMouseMove);
         };
     }, []);
+
+    useEffect(() => {
+        if (!isStarfieldReady || hasPeeked.current) return;
+        const timer = setTimeout(() => {
+            hasPeeked.current = true;
+            setShowPeek(true);
+            setTimeout(() => setShowPeek(false), 2200);
+        }, 3500);
+        return () => clearTimeout(timer);
+    }, [isStarfieldReady]);
 
     const setScene = (sceneIndex) => {
         const targets = [0.0, 0.25, 0.5, 0.75, 1.0];
@@ -177,7 +189,8 @@ function Home() {
             )}
 
             <div className="relative z-10 w-full h-full pointer-events-none scene-container">
-                <div className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
+                {/* Mobile: Dot Navigation */}
+                <div className="md:hidden absolute right-3 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
                     <div className="flex flex-col items-center gap-3">
                         {[0, 1, 2, 3, 4].map((i) => (
                             <button
@@ -188,13 +201,36 @@ function Home() {
                                 className="group flex items-center justify-center w-8 h-8"
                             >
                                 <span
-                                    className={`block rounded-full transition-all duration-300 border border-white/20 bg-white/10 group-hover:bg-white/20 group-hover:border-white/40 ${activeScene === i ? "w-2.5 h-2.5 opacity-100" : "w-2 h-2 opacity-50"
-                                        }`}
+                                    className={`block rounded-full transition-all duration-300 border border-white/20 bg-white/10 group-hover:bg-white/20 group-hover:border-white/40 ${activeScene === i ? "w-2.5 h-2.5 opacity-100" : "w-2 h-2 opacity-50"}`}
                                 />
                             </button>
                         ))}
                     </div>
                     <div className="mt-4 h-24 w-px bg-gradient-to-b from-transparent via-white/15 to-transparent" />
+                </div>
+
+                {/* Desktop: Bottom Tab Navigation */}
+                <div className="hidden md:flex absolute bottom-14 left-1/2 -translate-x-1/2 z-40 pointer-events-auto select-none">
+                    <div className="flex items-center gap-0.5 bg-white/[0.04] border border-white/10 rounded-full px-2 py-1.5 backdrop-blur-xl">
+                        {[
+                            { label: "LAB", textColor: "text-cyan-400", glowColor: "rgba(34,211,238,0.4)" },
+                            { label: "ATLASLY", textColor: "text-cyan-400", glowColor: "rgba(34,211,238,0.4)" },
+                            { label: "SAATLİKAYET", textColor: "text-amber-400", glowColor: "rgba(245,158,11,0.4)" },
+                            { label: "NOVA GAIA", textColor: "text-purple-400", glowColor: "rgba(168,85,247,0.4)" },
+                            { label: "ASCEND", textColor: "text-orange-400", glowColor: "rgba(249,115,22,0.4)" },
+                        ].map((tab, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                onClick={() => setScene(i)}
+                                aria-label={`Go to scene ${i}`}
+                                className={`px-3.5 py-1.5 rounded-full text-[9px] font-bold tracking-widest transition-all duration-300 ${activeScene === i ? `${tab.textColor} bg-white/10` : "text-white/25 hover:text-white/60"}`}
+                                style={activeScene === i ? { textShadow: `0 0 16px ${tab.glowColor}` } : {}}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 <nav className="absolute top-0 z-40 w-full p-5 md:p-8 flex justify-between items-center opacity-40">
@@ -372,6 +408,28 @@ function Home() {
                         }}
                     />
                 ))}
+
+                {/* Peek Card — Scene 0'da Atlasly'yi tanıtır */}
+                <div
+                    className="absolute z-[45] pointer-events-none"
+                    style={{
+                        bottom: '88px',
+                        left: '50%',
+                        transform: `translateX(-50%) translateY(${showPeek && activeScene === 0 ? '0%' : '150%'})`,
+                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                >
+                    <div className="flex items-center gap-3 bg-black/80 border border-white/10 rounded-2xl px-4 py-3 backdrop-blur-xl whitespace-nowrap">
+                        <img src="/atlasly-new.png" alt="Atlasly" className="w-9 h-9 rounded-xl object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                        <div className="text-left">
+                            <div className="text-[7px] text-cyan-400 uppercase tracking-[0.2em] mb-0.5">{lang === "tr" ? "Sıradaki" : "Next"}</div>
+                            <div className="text-sm font-display font-bold leading-none">Atlasly</div>
+                        </div>
+                        <svg className="ml-3 text-cyan-400/50" width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 7.5L7 1.5L13 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
 
                 <footer className="absolute bottom-0 z-40 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50 pointer-events-auto">© 2026 ECLABS • <a href={`mailto:${WAITLIST_EMAIL}`} className="hover:text-cyan-400 transition-colors">{WAITLIST_EMAIL}</a></div>
