@@ -38,24 +38,18 @@ const GlobalStyles = () => (
     }
 
     .galactic-text {
-        position: relative;
         color: white;
-        transition: color 0.5s ease;
+        transition: text-shadow 0.7s ease, filter 0.7s ease;
     }
 
     .galactic-text.hovered {
-        color: transparent;
-        background-image: radial-gradient(circle at center, #ffffff 0%, #22D3EE 40%, #000000 100%);
-        background-size: 200% 200%;
-        background-clip: text;
-        -webkit-background-clip: text;
-        animation: galactic-pan 3s ease-in-out infinite alternate;
-        text-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
-    }
-
-    @keyframes galactic-pan {
-        0% { background-position: 0% 50%; }
-        100% { background-position: 100% 50%; }
+        text-shadow:
+            0 0 10px rgba(255, 255, 255, 0.9),
+            0 0 30px rgba(34, 211, 238, 0.7),
+            0 0 60px rgba(34, 211, 238, 0.45),
+            0 0 120px rgba(34, 211, 238, 0.2),
+            0 0 200px rgba(34, 211, 238, 0.08);
+        filter: brightness(1.15);
     }
 
     @keyframes scroll-bounce {
