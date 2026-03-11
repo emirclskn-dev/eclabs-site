@@ -5,7 +5,6 @@ import { useLanguage } from "../../context/LanguageContext";
 
 const GlobalStyles = () => (
     <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500;700&display=swap');
     html { scroll-behavior: smooth; }
     body { margin: 0; background: black; -webkit-font-smoothing: antialiased; color-scheme: dark; }
     .font-display { font-family: 'Space Grotesk', sans-serif; }
@@ -54,9 +53,9 @@ function LegalShell({ title, children }) {
                 </div>
 
                 <div className="mt-10 flex gap-6 text-[10px] tracking-widest uppercase font-bold opacity-60">
-                    <Link className="hover:opacity-100" to="/privacy">{lang === "tr" ? "Gizlilik" : "Privacy"}</Link>
-                    <Link className="hover:opacity-100" to="/terms">{lang === "tr" ? "Şartlar" : "Terms"}</Link>
-                    <Link className="hover:opacity-100" to="/contact">{lang === "tr" ? "İletişim" : "Contact"}</Link>
+                    <Link className="hover:opacity-100" to="/privacy">{lang === "tr" ? "GİZLİLİK" : "PRIVACY"}</Link>
+                    <Link className="hover:opacity-100" to="/terms">{lang === "tr" ? "ŞARTLAR" : "TERMS"}</Link>
+                    <Link className="hover:opacity-100" to="/contact">{lang === "tr" ? "İLETİŞİM" : "CONTACT"}</Link>
                 </div>
             </div>
         </div>

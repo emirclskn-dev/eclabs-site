@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
-import { DisabledCTA, PrimaryCTA } from "../components/common/Buttons";
-import { WAITLIST_EMAIL } from "../constants";
+import { DisabledCTA, PrimaryCTA, SecondaryCTA } from "../components/common/Buttons";
+import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY } from "../constants";
 import { useLanguage } from "../context/LanguageContext";
 
 const GlobalStyles = () => (
     <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500;700&display=swap');
     html { scroll-behavior: smooth; }
     body { margin: 0; background: black; -webkit-font-smoothing: antialiased; color-scheme: dark; }
     .font-display { font-family: 'Space Grotesk', sans-serif; }
@@ -57,6 +56,14 @@ const GlobalStyles = () => (
     @keyframes galactic-pan {
         0% { background-position: 0% 50%; }
         100% { background-position: 100% 50%; }
+    }
+
+    @keyframes scroll-bounce {
+        0%, 100% { transform: translateY(0); opacity: 0.4; }
+        50% { transform: translateY(6px); opacity: 1; }
+    }
+    .scroll-chevron {
+        animation: scroll-bounce 1.6s ease-in-out infinite;
     }
     `}</style>
 );
@@ -130,6 +137,8 @@ function Home() {
             saatlikayet_primary: "Download on App Store",
             novagaia_primary: "Playtest Coming Soon",
             novagaia_ascend_primary: "Playtest Coming Soon",
+            novagaia_action: "EXPRESS INTEREST",
+            novagaia_ascend_action: "JOIN PLAYTEST LIST",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
@@ -145,6 +154,8 @@ function Home() {
             saatlikayet_primary: "App Store'dan İndir",
             novagaia_primary: "Playtest Yakında",
             novagaia_ascend_primary: "Playtest Yakında",
+            novagaia_action: "İLGİMİ BİLDİR",
+            novagaia_ascend_action: "PLAYTEST LİSTESİNE KATIL",
         },
     }[lang];
 
@@ -180,7 +191,7 @@ function Home() {
                                 type="button"
                                 onClick={() => setScene(i)}
                                 aria-label={`Go to scene ${i}`}
-                                className="group flex items-center justify-center"
+                                className="group flex items-center justify-center w-8 h-8"
                             >
                                 <span
                                     className={`block rounded-full transition-all duration-300 border border-white/20 bg-white/10 group-hover:bg-white/20 group-hover:border-white/40 ${activeScene === i ? "w-2.5 h-2.5 opacity-100" : "w-2 h-2 opacity-50"
@@ -195,8 +206,8 @@ function Home() {
                 <nav className="absolute top-0 z-40 w-full p-5 md:p-8 flex justify-between items-center opacity-40">
                     <div className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400">ECLABS</div>
                     <div className="flex items-center gap-3 pointer-events-auto">
-                        <Link to="/contact" className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
-                            {lang === "tr" ? "İletişim" : "Contact"}
+                        <Link to="/contact" className="text-[10px] tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
+                            {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
                         </Link>
                         <button
                             onClick={toggleLanguage}
@@ -230,7 +241,10 @@ function Home() {
                     >
                         ECLABS.
                     </h1>
-                    <p className="text-cyan-400 text-[10px] tracking-[0.6em] uppercase animate-pulse whitespace-nowrap">{t_copy.intro}</p>
+                    <p className="text-cyan-400 text-[10px] tracking-[0.3em] md:tracking-[0.6em] uppercase animate-pulse text-center px-4 mb-4">{t_copy.intro}</p>
+                    <svg className="scroll-chevron text-cyan-400/60" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L8 8L15 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                 </div>
 
                 {/* Scene 1: Atlasly */}
@@ -314,7 +328,10 @@ function Home() {
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 3 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[8px] text-purple-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">Nova Gaia</h2>
-                        <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_desc}</p>
+                        <p className="text-white/40 text-xs leading-relaxed mb-6 mt-4">{t_copy.novagaia_desc}</p>
+                        <div className="flex items-center justify-center">
+                            <SecondaryCTA href={NOVA_GAIA_NOTIFY} label={t_copy.novagaia_action} />
+                        </div>
                     </div>
                 </div>
 
@@ -336,9 +353,9 @@ function Home() {
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 4 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-[8px] text-orange-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_ascend_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">NovaGaia: Ascend</h2>
-                        <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_ascend_desc}</p>
-                        <div className="flex items-center justify-center mt-6">
-                            <DisabledCTA label={t_copy.novagaia_ascend_primary} />
+                        <p className="text-white/40 text-xs leading-relaxed mt-4 mb-6">{t_copy.novagaia_ascend_desc}</p>
+                        <div className="flex items-center justify-center">
+                            <PrimaryCTA href={NOVAGAIA_ASCEND_NOTIFY} label={t_copy.novagaia_ascend_action} theme="amber" />
                         </div>
                     </div>
                 </div>
@@ -363,11 +380,11 @@ function Home() {
                 ))}
 
                 <footer className="absolute bottom-0 z-40 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
-                    <div className="text-[10px] tracking-[0.4em] font-mono text-white/50">© 2026 ECLABS • {WAITLIST_EMAIL}</div>
+                    <div className="text-[10px] tracking-[0.4em] font-mono text-white/50 pointer-events-auto">© 2026 ECLABS • <a href={`mailto:${WAITLIST_EMAIL}`} className="hover:text-cyan-400 transition-colors">{WAITLIST_EMAIL}</a></div>
                     <div className="flex gap-6 md:gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
-                        <Link to="/privacy" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "Gizlilik" : "Privacy"}</Link>
-                        <Link to="/terms" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "Şartlar" : "Terms"}</Link>
-                        <Link to="/contact" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "İletişim" : "Contact"}</Link>
+                        <Link to="/privacy" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "GİZLİLİK" : "PRIVACY"}</Link>
+                        <Link to="/terms" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "ŞARTLAR" : "TERMS"}</Link>
+                        <Link to="/contact" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "İLETİŞİM" : "CONTACT"}</Link>
                     </div>
                 </footer>
             </div>
