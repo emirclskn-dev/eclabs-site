@@ -22,6 +22,7 @@ const TRANSLATIONS = {
                 links: [
                     { label: "Atlasly Gizlilik Politikası", to: "/privacy-atlasly" },
                     { label: "SaatlikAyet Gizlilik Politikası", to: "/privacy-saatlikayet" },
+                    { label: "NovaGaia: Ascend Gizlilik Politikası", to: "/privacy-novagaia-ascend" },
                 ],
             },
             {
@@ -49,6 +50,7 @@ const TRANSLATIONS = {
                 links: [
                     { label: "Atlasly Privacy Policy", to: "/privacy-atlasly" },
                     { label: "SaatlikAyet Privacy Policy", to: "/privacy-saatlikayet" },
+                    { label: "NovaGaia: Ascend Privacy Policy", to: "/privacy-novagaia-ascend" },
                 ],
             },
             {

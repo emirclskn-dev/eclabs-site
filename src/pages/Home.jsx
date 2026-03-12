@@ -71,8 +71,6 @@ function Home() {
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [logoHover, setLogoHover] = useState(false);
-    const [showPeek, setShowPeek] = useState(false);
-    const hasPeeked = useRef(false);
 
     // Per-letter dissolve effect
     const letterRefs = useRef([]);
@@ -179,15 +177,6 @@ function Home() {
         };
     }, []);
 
-    useEffect(() => {
-        if (!isStarfieldReady || hasPeeked.current) return;
-        const timer = setTimeout(() => {
-            hasPeeked.current = true;
-            setShowPeek(true);
-            setTimeout(() => setShowPeek(false), 2200);
-        }, 3500);
-        return () => clearTimeout(timer);
-    }, [isStarfieldReady]);
 
     const setScene = (sceneIndex) => {
         const targets = [0.0, 0.25, 0.5, 0.75, 1.0];
@@ -207,13 +196,13 @@ function Home() {
             atlasly_badge: "Out Now",
             saatlikayet_badge: "Out Now",
             novagaia_badge: "Legacy",
-            novagaia_ascend_badge: "Coming Soon",
+            novagaia_ascend_badge: "TestFlight",
             atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Download on App Store",
             novagaia_primary: "Playtest Coming Soon",
-            novagaia_ascend_primary: "Playtest Coming Soon",
+            novagaia_ascend_primary: "Join TestFlight Beta",
             novagaia_action: "EXPRESS INTEREST",
-            novagaia_ascend_action: "JOIN PLAYTEST LIST",
+            novagaia_ascend_action: "JOIN TESTFLIGHT",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
@@ -224,13 +213,13 @@ function Home() {
             atlasly_badge: "Yayında",
             saatlikayet_badge: "Yayında",
             novagaia_badge: "Klasik",
-            novagaia_ascend_badge: "Yakında",
+            novagaia_ascend_badge: "TestFlight",
             atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "App Store'dan İndir",
             novagaia_primary: "Playtest Yakında",
-            novagaia_ascend_primary: "Playtest Yakında",
+            novagaia_ascend_primary: "TestFlight Beta'ya Katıl",
             novagaia_action: "İLGİMİ BİLDİR",
-            novagaia_ascend_action: "PLAYTEST LİSTESİNE KATIL",
+            novagaia_ascend_action: "TESTFLIGHT'A KATIL",
         },
     }[lang];
 
@@ -460,11 +449,14 @@ function Home() {
                 >
                     <AppIcon src="/novagaia-ascend.png" alt="NovaGaia: Ascend" fallbackGradient="from-orange-600 to-red-800" glowColor="bg-orange-500" />
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 4 ? "pointer-events-auto" : "pointer-events-none"}`}>
-                        <div className="inline-block px-2 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-[8px] text-orange-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_ascend_badge}</div>
+                        <div className="inline-block px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[8px] text-emerald-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_ascend_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">NovaGaia: Ascend</h2>
-                        <p className="text-white/40 text-xs leading-relaxed mt-4 mb-6">{t_copy.novagaia_ascend_desc}</p>
+                        <p className="text-white/40 text-xs leading-relaxed mt-4 mb-4">{t_copy.novagaia_ascend_desc}</p>
+                        <Link to="/privacy-novagaia-ascend" className="inline-block mb-6 text-[10px] text-emerald-400/60 hover:text-emerald-400 underline decoration-emerald-400/20 underline-offset-4 transition-colors">
+                            {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
+                        </Link>
                         <div className="flex items-center justify-center">
-                            <PrimaryCTA href={NOVAGAIA_ASCEND_NOTIFY} label={t_copy.novagaia_ascend_action} theme="amber" />
+                            <PrimaryCTA href={NOVAGAIA_ASCEND_NOTIFY} label={t_copy.novagaia_ascend_action} theme="green" />
                         </div>
                     </div>
                 </div>
@@ -488,27 +480,6 @@ function Home() {
                     />
                 ))}
 
-                {/* Peek Card — Scene 0'da Atlasly'yi tanıtır */}
-                <div
-                    className="absolute z-[45] pointer-events-none"
-                    style={{
-                        bottom: '88px',
-                        left: '50%',
-                        transform: `translateX(-50%) translateY(${showPeek && activeScene === 0 ? '0%' : '150%'})`,
-                        transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                >
-                    <div className="flex items-center gap-3 bg-black/80 border border-white/10 rounded-2xl px-4 py-3 backdrop-blur-xl whitespace-nowrap">
-                        <img src="/atlasly-new.png" alt="Atlasly" className="w-9 h-9 rounded-xl object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
-                        <div className="text-left">
-                            <div className="text-[7px] text-cyan-400 uppercase tracking-[0.2em] mb-0.5">{lang === "tr" ? "Sıradaki" : "Next"}</div>
-                            <div className="text-sm font-display font-bold leading-none">Atlasly</div>
-                        </div>
-                        <svg className="ml-3 text-cyan-400/50" width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 7.5L7 1.5L13 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
 
                 <footer className="absolute bottom-0 z-40 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50 pointer-events-auto">© 2026 ECLABS • <a href={`mailto:${WAITLIST_EMAIL}`} className="hover:text-cyan-400 transition-colors">{WAITLIST_EMAIL}</a></div>
