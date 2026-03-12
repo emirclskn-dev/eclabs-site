@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
@@ -37,19 +37,18 @@ const GlobalStyles = () => (
         50% { opacity: 1; transform: scale(1.1); }
     }
 
-    .galactic-text {
+    .eclabs-letter {
+        display: inline-block;
         color: white;
-        transition: text-shadow 0.7s ease, filter 0.7s ease;
+        cursor: default;
+        transition: opacity 0.3s ease;
+        will-change: opacity;
     }
 
-    .galactic-text.hovered {
-        text-shadow:
-            0 0 10px rgba(255, 255, 255, 0.9),
-            0 0 30px rgba(34, 211, 238, 0.7),
-            0 0 60px rgba(34, 211, 238, 0.45),
-            0 0 120px rgba(34, 211, 238, 0.2),
-            0 0 200px rgba(34, 211, 238, 0.08);
-        filter: brightness(1.15);
+    @keyframes letter-restore {
+        0% { opacity: 0; filter: blur(4px) brightness(3); transform: scale(1.15); }
+        60% { opacity: 0.8; filter: blur(1px) brightness(1.5); transform: scale(1.02); }
+        100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
     }
 
     @keyframes scroll-bounce {
@@ -74,6 +73,76 @@ function Home() {
     const [logoHover, setLogoHover] = useState(false);
     const [showPeek, setShowPeek] = useState(false);
     const hasPeeked = useRef(false);
+
+    // Per-letter dissolve effect
+    const letterRefs = useRef([]);
+    const letterCooldowns = useRef({});
+
+    const spawnPixels = useCallback((el) => {
+        const rect = el.getBoundingClientRect();
+        const count = 22;
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            const size = Math.random() * 3.5 + 1;
+            // Mostly upward with some lateral spread
+            const spreadAngle = (Math.random() * 260 - 130) * (Math.PI / 180);
+            const dist = 25 + Math.random() * 100;
+            const tx = Math.sin(spreadAngle) * dist;
+            const ty = -(Math.abs(Math.cos(spreadAngle)) * dist + Math.random() * 50);
+            const startX = rect.left + Math.random() * rect.width;
+            const startY = rect.top + Math.random() * rect.height;
+            const delay = Math.random() * 160;
+            const dur = 650 + Math.random() * 500;
+            const isCyan = Math.random() > 0.4;
+            const color = isCyan ? '#22D3EE' : '#ffffff';
+            Object.assign(p.style, {
+                position: 'fixed',
+                left: startX + 'px',
+                top: startY + 'px',
+                width: size + 'px',
+                height: size + 'px',
+                background: color,
+                boxShadow: `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${isCyan ? 'rgba(34,211,238,0.5)' : 'rgba(255,255,255,0.3)'}`,
+                pointerEvents: 'none',
+                zIndex: '9999',
+                opacity: '1',
+                transition: `transform ${dur}ms cubic-bezier(0.1, 0.05, 0.25, 1) ${delay}ms, opacity ${Math.round(dur * 0.55)}ms ease ${delay + Math.round(dur * 0.4)}ms`,
+            });
+            document.body.appendChild(p);
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                p.style.transform = `translate(${tx}px, ${ty}px) scale(0)`;
+                p.style.opacity = '0';
+            }));
+            setTimeout(() => p.remove(), dur + delay + 120);
+        }
+    }, []);
+
+    const handleLetterEnter = useCallback((i) => {
+        if (letterCooldowns.current[i]) return;
+        const el = letterRefs.current[i];
+        if (!el) return;
+        letterCooldowns.current[i] = true;
+        spawnPixels(el);
+        // Instant hide
+        el.style.transition = 'opacity 0s';
+        el.style.animation = 'none';
+        el.style.opacity = '0';
+        // Fade back in after 1s
+        setTimeout(() => {
+            const target = letterRefs.current[i];
+            if (!target) return;
+            target.style.transition = 'none';
+            target.style.animation = 'letter-restore 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+            setTimeout(() => {
+                if (letterRefs.current[i]) {
+                    letterRefs.current[i].style.animation = '';
+                    letterRefs.current[i].style.opacity = '1';
+                    letterRefs.current[i].style.transition = 'opacity 0.3s ease';
+                }
+                letterCooldowns.current[i] = false;
+            }, 820);
+        }, 950);
+    }, [spawnPixels]);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -210,7 +279,7 @@ function Home() {
                 </div>
 
                 {/* Desktop: Bottom Tab Navigation */}
-                <div className="hidden md:flex absolute bottom-14 left-1/2 -translate-x-1/2 z-40 pointer-events-auto select-none">
+                <div className="hidden md:flex absolute bottom-20 left-1/2 -translate-x-1/2 z-40 pointer-events-auto select-none">
                     <div className="flex items-center gap-0.5 bg-white/[0.04] border border-white/10 rounded-full px-2 py-1.5 backdrop-blur-xl">
                         {[
                             { label: "LAB", textColor: "text-cyan-400", glowColor: "rgba(34,211,238,0.4)" },
@@ -263,13 +332,23 @@ function Home() {
                 >
                     <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan-500 to-transparent mb-8 animate-pulse" />
                     <h1
-                        className={`text-5xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none opacity-80 galactic-text ${logoHover ? 'hovered' : ''}`}
+                        className="text-5xl md:text-[8rem] font-display font-bold tracking-tighter mb-4 text-center select-none opacity-80"
                         onMouseEnter={() => setLogoHover(true)}
                         onMouseLeave={() => setLogoHover(false)}
                         onTouchStart={() => setLogoHover(true)}
                         onTouchEnd={() => setLogoHover(false)}
+                        aria-label="ECLABS."
                     >
-                        ECLABS.
+                        {"ECLABS.".split("").map((char, i) => (
+                            <span
+                                key={i}
+                                ref={el => { letterRefs.current[i] = el; }}
+                                onMouseEnter={() => handleLetterEnter(i)}
+                                className="eclabs-letter"
+                            >
+                                {char}
+                            </span>
+                        ))}
                     </h1>
                     <p className="text-cyan-400 text-[10px] tracking-[0.3em] md:tracking-[0.6em] uppercase animate-pulse text-center px-4 mb-4">{t_copy.intro}</p>
                     <svg className="scroll-chevron text-cyan-400/60" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
