@@ -4,6 +4,7 @@ import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
 import { DisabledCTA, PrimaryCTA, SecondaryCTA } from "../components/common/Buttons";
 import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY } from "../constants";
+import { useAudio } from "../context/AudioContext";
 import { useLanguage } from "../context/LanguageContext";
 
 const GlobalStyles = () => (
@@ -68,6 +69,7 @@ function Home() {
 
     const [activeScene, setActiveScene] = useState(0);
     const { lang, toggleLanguage } = useLanguage();
+    const { isPlaying, playUiFx, startBackgroundMusic, stopBackgroundMusic } = useAudio();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [logoHover, setLogoHover] = useState(false);
@@ -163,10 +165,40 @@ function Home() {
             mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
         };
 
+        const clampMotion = (value) => Math.max(-1, Math.min(1, value));
+        const handleDeviceOrientation = (e) => {
+            if (window.innerWidth >= 768) return;
+            if (typeof e.gamma !== "number" || typeof e.beta !== "number") return;
+
+            mouse.current.x = clampMotion(e.gamma / 30);
+            mouse.current.y = clampMotion((e.beta - 45) / 45);
+        };
+
+        const requestOrientationPermission = async () => {
+            const orientationEvent = window.DeviceOrientationEvent;
+            if (!orientationEvent || typeof orientationEvent.requestPermission !== "function") return;
+
+            try {
+                const result = await orientationEvent.requestPermission();
+                if (result === "granted") {
+                    window.addEventListener("deviceorientation", handleDeviceOrientation, true);
+                }
+            } catch (error) {
+                // Permission denied or unavailable; keep touch behavior only.
+            }
+        };
+
         window.addEventListener("wheel", handleWheel, { passive: true });
         window.addEventListener("touchstart", handleTouchStart, { passive: true });
         window.addEventListener("touchmove", handleTouchMove, { passive: true });
         if (window.innerWidth >= 768) window.addEventListener("mousemove", handleMouseMove);
+        if (window.innerWidth < 768) {
+            if (typeof window.DeviceOrientationEvent !== "undefined" && typeof window.DeviceOrientationEvent.requestPermission === "function") {
+                window.addEventListener("touchstart", requestOrientationPermission, { passive: true, once: true });
+            } else {
+                window.addEventListener("deviceorientation", handleDeviceOrientation, true);
+            }
+        }
 
         return () => {
             window.removeEventListener("resize", handleResize);
@@ -174,6 +206,8 @@ function Home() {
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchmove", handleTouchMove);
             window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("deviceorientation", handleDeviceOrientation, true);
+            window.removeEventListener("touchstart", requestOrientationPermission);
         };
     }, []);
 
@@ -181,6 +215,8 @@ function Home() {
     const setScene = (sceneIndex) => {
         const targets = [0.0, 0.25, 0.5, 0.75, 1.0];
         const clamped = Math.max(0, Math.min(sceneIndex, targets.length - 1));
+        startBackgroundMusic();
+        playUiFx("click");
         targetScroll.current = targets[clamped];
         currentScroll.current = targets[clamped];
         setActiveScene(clamped);
@@ -191,37 +227,55 @@ function Home() {
             intro: "Scroll to explore the lab",
             atlasly_desc: "Private travel journal. Mark countries, attach notes, and keep travel memories organized.",
             saatlikayet_desc: "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
-            novagaia_desc: "Post-human survival shooter. Short runs, high stakes, score-chasing.",
-            novagaia_ascend_desc: "Build your structure rising to the sky. Release at the right moment, maintain balance and ascend in NovaGaia.",
+            novagaia_desc: "Post-human survival shooter currently in development. Short runs, high stakes, and score-chasing are taking shape.",
+            novagaia_status: "Early development. Playtest and release details will be shared later.",
+            novagaia_ascend_desc: "Atmospheric tower-building game focused on balance, timing, and flow. Stack higher, protect your rhythm, and climb in Endless or Story Mode.",
             atlasly_badge: "Out Now",
             saatlikayet_badge: "Out Now",
-            novagaia_badge: "Legacy",
-            novagaia_ascend_badge: "TestFlight",
+            novagaia_badge: "In Development",
+            novagaia_ascend_badge: "Out Now",
             atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Download on App Store",
             novagaia_primary: "Playtest Coming Soon",
-            novagaia_ascend_primary: "Join TestFlight Beta",
+            novagaia_ascend_primary: "Download on App Store",
             novagaia_action: "EXPRESS INTEREST",
-            novagaia_ascend_action: "JOIN TESTFLIGHT",
+            novagaia_ascend_action: "DOWNLOAD ON APP STORE",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
             atlasly_desc: "Özel seyahat günlüğü. Ülkeleri işaretleyin, notlar ekleyin ve anılarınızı düzenleyin.",
             saatlikayet_desc: "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
-            novagaia_desc: "Post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo, rekor odaklı.",
-            novagaia_ascend_desc: "Gökyüzüne yükselen yapını inşa et. Doğru anda bırak, dengeyi koru ve NovaGaia’da yüksel.",
+            novagaia_desc: "Geliştirme aşamasındaki post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo ve rekor odaklı yapı şekilleniyor.",
+            novagaia_status: "Erken geliştirme aşamasında. Playtest ve çıkış detayları daha sonra paylaşılacak.",
+            novagaia_ascend_desc: "Denge, zamanlama ve akış odaklı atmosferik kule kurma oyunu. Sonsuz veya Hikâye Modu'nda daha yükseğe çık, ritmini koru ve yüksel.",
             atlasly_badge: "Yayında",
             saatlikayet_badge: "Yayında",
-            novagaia_badge: "Klasik",
-            novagaia_ascend_badge: "TestFlight",
+            novagaia_badge: "Geliştirme Aşamasında",
+            novagaia_ascend_badge: "Yayında",
             atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "App Store'dan İndir",
             novagaia_primary: "Playtest Yakında",
-            novagaia_ascend_primary: "TestFlight Beta'ya Katıl",
+            novagaia_ascend_primary: "App Store'dan İndir",
             novagaia_action: "İLGİMİ BİLDİR",
-            novagaia_ascend_action: "TESTFLIGHT'A KATIL",
+            novagaia_ascend_action: "APP STORE'DAN İNDİR",
         },
     }[lang];
+
+    const sceneAriaLabels = lang === "tr"
+        ? [
+            "Laboratuvar sahnesine git",
+            "Atlasly sahnesine git",
+            "SaatlikAyet sahnesine git",
+            "Nova Gaia sahnesine git",
+            "NovaGaia Ascend sahnesine git",
+        ]
+        : [
+            "Go to lab scene",
+            "Go to Atlasly scene",
+            "Go to SaatlikAyet scene",
+            "Go to Nova Gaia scene",
+            "Go to NovaGaia Ascend scene",
+        ];
 
     return (
         <div className="relative w-full h-screen bg-[#000] text-white overflow-hidden font-sans">
@@ -255,7 +309,7 @@ function Home() {
                                 key={i}
                                 type="button"
                                 onClick={() => setScene(i)}
-                                aria-label={`Go to scene ${i}`}
+                                aria-label={sceneAriaLabels[i]}
                                 className="group flex items-center justify-center w-8 h-8"
                             >
                                 <span
@@ -281,7 +335,7 @@ function Home() {
                                 key={i}
                                 type="button"
                                 onClick={() => setScene(i)}
-                                aria-label={`Go to scene ${i}`}
+                                aria-label={sceneAriaLabels[i]}
                                 className={`px-3.5 py-1.5 rounded-full text-[9px] font-bold tracking-widest transition-all duration-300 ${activeScene === i ? `${tab.textColor} bg-white/10` : "text-white/25 hover:text-white/60"}`}
                                 style={activeScene === i ? { textShadow: `0 0 16px ${tab.glowColor}` } : {}}
                             >
@@ -294,11 +348,34 @@ function Home() {
                 <nav className="absolute top-0 z-40 w-full p-5 md:p-8 flex justify-between items-center opacity-40">
                     <div className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400">ECLABS</div>
                     <div className="flex items-center gap-3 pointer-events-auto">
+                        <button
+                            type="button"
+                            onMouseEnter={() => playUiFx("hover")}
+                            onClick={() => {
+                                playUiFx("click");
+                                if (isPlaying) {
+                                    stopBackgroundMusic();
+                                    return;
+                                }
+                                startBackgroundMusic(true);
+                            }}
+                            className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-red-500 hover:text-white transition-all"
+                        >
+                            {isPlaying
+                                ? (lang === "tr" ? "MÜZİĞİ DURDUR" : "STOP MUSIC")
+                                : (lang === "tr" ? "MÜZİĞİ AÇ" : "PLAY MUSIC")}
+                        </button>
                         <Link to="/contact" className="text-[10px] tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
                             {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
                         </Link>
                         <button
-                            onClick={toggleLanguage}
+                            type="button"
+                            onMouseEnter={() => playUiFx("hover")}
+                            onClick={() => {
+                                startBackgroundMusic();
+                                playUiFx("click");
+                                toggleLanguage();
+                            }}
                             className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all"
                         >
                             {lang === "en" ? "TR" : "EN"}
@@ -426,7 +503,8 @@ function Home() {
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 3 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[8px] text-purple-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">Nova Gaia</h2>
-                        <p className="text-white/40 text-xs leading-relaxed mb-6 mt-4">{t_copy.novagaia_desc}</p>
+                        <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_desc}</p>
+                        <p className="text-white/25 text-[10px] leading-relaxed mb-4 mt-3">{t_copy.novagaia_status}</p>
                         <div className="flex items-center justify-center">
                             <SecondaryCTA href={NOVA_GAIA_NOTIFY} label={t_copy.novagaia_action} />
                         </div>

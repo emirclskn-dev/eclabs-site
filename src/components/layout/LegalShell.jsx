@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { WAITLIST_EMAIL } from "../../constants";
+import { useAudio } from "../../context/AudioContext";
 import { useLanguage } from "../../context/LanguageContext";
 
 const GlobalStyles = () => (
@@ -17,6 +18,7 @@ const GlobalStyles = () => (
 
 function LegalShell({ title, children }) {
     const { lang, toggleLanguage } = useLanguage();
+    const { isPlaying, playUiFx, startBackgroundMusic, stopBackgroundMusic } = useAudio();
 
     return (
         <div
@@ -35,11 +37,34 @@ function LegalShell({ title, children }) {
                         ECLABS
                     </Link>
                     <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onMouseEnter={() => playUiFx("hover")}
+                            onClick={() => {
+                                playUiFx("click");
+                                if (isPlaying) {
+                                    stopBackgroundMusic();
+                                    return;
+                                }
+                                startBackgroundMusic(true);
+                            }}
+                            className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-red-500 hover:text-white transition-all"
+                        >
+                            {isPlaying
+                                ? (lang === "tr" ? "MÜZİĞİ DURDUR" : "STOP MUSIC")
+                                : (lang === "tr" ? "MÜZİĞİ AÇ" : "PLAY MUSIC")}
+                        </button>
                         <Link to="/contact" className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
                             {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
                         </Link>
                         <button
-                            onClick={toggleLanguage}
+                            type="button"
+                            onMouseEnter={() => playUiFx("hover")}
+                            onClick={() => {
+                                startBackgroundMusic();
+                                playUiFx("click");
+                                toggleLanguage();
+                            }}
                             className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all"
                         >
                             {lang === "en" ? "TR" : "EN"}
