@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
@@ -69,10 +70,11 @@ function Home() {
 
     const [activeScene, setActiveScene] = useState(0);
     const { lang, toggleLanguage } = useLanguage();
-    const { isPlaying, playUiFx, startBackgroundMusic, stopBackgroundMusic } = useAudio();
+    const { playUiFx } = useAudio();
     const [isStarfieldReady, setIsStarfieldReady] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [logoHover, setLogoHover] = useState(false);
+    const [isAboutOpen, setIsAboutOpen] = useState(false);
 
     // Per-letter dissolve effect
     const letterRefs = useRef([]);
@@ -215,7 +217,6 @@ function Home() {
     const setScene = (sceneIndex) => {
         const targets = [0.0, 0.25, 0.5, 0.75, 1.0];
         const clamped = Math.max(0, Math.min(sceneIndex, targets.length - 1));
-        startBackgroundMusic();
         playUiFx("click");
         targetScroll.current = targets[clamped];
         currentScroll.current = targets[clamped];
@@ -225,10 +226,12 @@ function Home() {
     const t_copy = {
         en: {
             intro: "Scroll to explore the lab",
+            intro_subtitle: "ECLABS designs and ships thoughtful software with a strong focus on clarity, detail, and long-term product quality.",
             atlasly_desc: "Private travel journal. Mark countries, attach notes, and keep travel memories organized.",
             saatlikayet_desc: "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
             novagaia_desc: "Post-human survival shooter currently in development. Short runs, high stakes, and score-chasing are taking shape.",
             novagaia_status: "Early development. Playtest and release details will be shared later.",
+            novagaia_helper: "Get development updates by email",
             novagaia_ascend_desc: "Atmospheric tower-building game focused on balance, timing, and flow. Stack higher, protect your rhythm, and climb in Endless or Story Mode.",
             atlasly_badge: "Out Now",
             saatlikayet_badge: "Out Now",
@@ -236,17 +239,18 @@ function Home() {
             novagaia_ascend_badge: "Out Now",
             atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Download on App Store",
-            novagaia_primary: "Playtest Coming Soon",
             novagaia_ascend_primary: "Download on App Store",
             novagaia_action: "EXPRESS INTEREST",
             novagaia_ascend_action: "DOWNLOAD ON APP STORE",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
+            intro_subtitle: "ECLABS, yalın deneyim, detay hassasiyeti ve uzun vadeli ürün kalitesine odaklanan bir yazılım ürün geliştiricisidir.",
             atlasly_desc: "Özel seyahat günlüğü. Ülkeleri işaretleyin, notlar ekleyin ve anılarınızı düzenleyin.",
             saatlikayet_desc: "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
             novagaia_desc: "Geliştirme aşamasındaki post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo ve rekor odaklı yapı şekilleniyor.",
             novagaia_status: "Erken geliştirme aşamasında. Playtest ve çıkış detayları daha sonra paylaşılacak.",
+            novagaia_helper: "Geliştirme güncellemelerini e-postayla alın",
             novagaia_ascend_desc: "Denge, zamanlama ve akış odaklı atmosferik kule kurma oyunu. Sonsuz veya Hikâye Modu'nda daha yükseğe çık, ritmini koru ve yüksel.",
             atlasly_badge: "Yayında",
             saatlikayet_badge: "Yayında",
@@ -254,7 +258,6 @@ function Home() {
             novagaia_ascend_badge: "Yayında",
             atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "App Store'dan İndir",
-            novagaia_primary: "Playtest Yakında",
             novagaia_ascend_primary: "App Store'dan İndir",
             novagaia_action: "İLGİMİ BİLDİR",
             novagaia_ascend_action: "APP STORE'DAN İNDİR",
@@ -348,23 +351,6 @@ function Home() {
                 <nav className="absolute top-0 z-40 w-full p-5 md:p-8 flex justify-between items-center opacity-40">
                     <div className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400">ECLABS</div>
                     <div className="flex items-center gap-3 pointer-events-auto">
-                        <button
-                            type="button"
-                            onMouseEnter={() => playUiFx("hover")}
-                            onClick={() => {
-                                playUiFx("click");
-                                if (isPlaying) {
-                                    stopBackgroundMusic();
-                                    return;
-                                }
-                                startBackgroundMusic(true);
-                            }}
-                            className="text-[10px] uppercase tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-red-500 hover:text-white transition-all"
-                        >
-                            {isPlaying
-                                ? (lang === "tr" ? "MÜZİĞİ DURDUR" : "STOP MUSIC")
-                                : (lang === "tr" ? "MÜZİĞİ AÇ" : "PLAY MUSIC")}
-                        </button>
                         <Link to="/contact" className="text-[10px] tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
                             {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
                         </Link>
@@ -372,7 +358,6 @@ function Home() {
                             type="button"
                             onMouseEnter={() => playUiFx("hover")}
                             onClick={() => {
-                                startBackgroundMusic();
                                 playUiFx("click");
                                 toggleLanguage();
                             }}
@@ -420,6 +405,15 @@ function Home() {
                     <svg className="scroll-chevron text-cyan-400/60" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1L8 8L15 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
+                    <div className="absolute bottom-24 right-6 flex flex-col items-end gap-3 pointer-events-auto md:bottom-16 md:right-10">
+                        {isAboutOpen && (
+                            <div className="w-[min(72vw,22rem)] rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-right backdrop-blur-xl">
+                                <p className="text-[11px] md:text-xs tracking-[0.08em] text-white/55 leading-relaxed">
+                                    {t_copy.intro_subtitle}
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* Scene 1: Atlasly */}
@@ -450,6 +444,15 @@ function Home() {
                                 href="https://apps.apple.com/tr/app/atlasly/id6759877369?l=tr"
                             />
                         </div>
+                        <a
+                            href="https://www.instagram.com/atlaslyapp?igsh=MTBtcjl5cXFuajRkMA%3D%3D&utm_source=qr"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 mt-4 rounded-full border border-cyan-400/15 bg-cyan-400/5 px-3 py-1.5 text-[10px] text-cyan-300/70 transition-colors hover:text-cyan-300 hover:border-cyan-400/35"
+                        >
+                            <Instagram size={12} />
+                            @atlaslyapp
+                        </a>
                     </div>
                 </div>
 
@@ -482,6 +485,26 @@ function Home() {
                                 theme="amber"
                             />
                         </div>
+                        <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+                            <a
+                                href="https://www.instagram.com/saatlikayetapp?igsh=MWQybGRnZG4xcHlkbQ%3D%3D&utm_source=qr"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 rounded-full border border-amber-400/15 bg-amber-400/5 px-3 py-1.5 text-[10px] text-amber-300/70 transition-colors hover:text-amber-300 hover:border-amber-400/35"
+                            >
+                                <Instagram size={12} />
+                                @saatlikayetapp
+                            </a>
+                            <a
+                                href="https://x.com/saatlikayet?s=21&t=Rxy-xbcjAe8Io4ETD_kuVA"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] text-white/65 transition-colors hover:text-white hover:border-white/25"
+                            >
+                                <span className="text-[11px] font-bold">X</span>
+                                @saatlikayet
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -508,6 +531,12 @@ function Home() {
                         <div className="flex items-center justify-center">
                             <SecondaryCTA href={NOVA_GAIA_NOTIFY} label={t_copy.novagaia_action} />
                         </div>
+                        <a
+                            href={`mailto:${WAITLIST_EMAIL}?subject=Nova%20Gaia%20Updates`}
+                            className="inline-block mt-4 text-[10px] text-purple-300/60 hover:text-purple-300 underline decoration-purple-300/20 underline-offset-4 transition-colors"
+                        >
+                            {t_copy.novagaia_helper}
+                        </a>
                     </div>
                 </div>
 
@@ -561,7 +590,18 @@ function Home() {
 
                 <footer className="absolute bottom-0 z-40 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50 pointer-events-auto">© 2026 ECLABS • <a href={`mailto:${WAITLIST_EMAIL}`} className="hover:text-cyan-400 transition-colors">{WAITLIST_EMAIL}</a></div>
-                    <div className="flex gap-6 md:gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
+                    <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
+                        <button
+                            type="button"
+                            onMouseEnter={() => playUiFx("hover")}
+                            onClick={() => {
+                                playUiFx("click");
+                                setIsAboutOpen((current) => !current);
+                            }}
+                            className="hover:text-cyan-400 transition-colors"
+                        >
+                            {lang === "tr" ? "HAKKINDA" : "ABOUT"}
+                        </button>
                         <Link to="/privacy" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "GİZLİLİK" : "PRIVACY"}</Link>
                         <Link to="/terms" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "ŞARTLAR" : "TERMS"}</Link>
                         <Link to="/contact" className="hover:text-cyan-400 transition-colors">{lang === "tr" ? "İLETİŞİM" : "CONTACT"}</Link>

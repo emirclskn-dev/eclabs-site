@@ -2,7 +2,28 @@ import React from "react";
 import LegalShell, { WAITLIST_EMAIL } from "../components/layout/LegalShell";
 import { useLanguage } from "../context/LanguageContext";
 
-import { Mail, ArrowUpRight } from "lucide-react";
+import { Mail, ArrowUpRight, Instagram } from "lucide-react";
+
+const SOCIAL_LINKS = [
+    {
+        title: "ECLABS Instagram",
+        href: "https://www.instagram.com/eclabstr?igsh=Z3NoZDQwMXhjZDh6&utm_source=qr",
+    },
+    {
+        title: "Atlasly Instagram",
+        href: "https://www.instagram.com/atlaslyapp?igsh=MTBtcjl5cXFuajRkMA%3D%3D&utm_source=qr",
+    },
+    {
+        title: "SaatlikAyet Instagram",
+        href: "https://www.instagram.com/saatlikayetapp?igsh=MWQybGRnZG4xcHlkbQ%3D%3D&utm_source=qr",
+        kind: "instagram",
+    },
+    {
+        title: "SaatlikAyet X",
+        href: "https://x.com/saatlikayet?s=21&t=Rxy-xbcjAe8Io4ETD_kuVA",
+        kind: "x",
+    },
+];
 
 const TRANSLATIONS = {
     tr: {
@@ -103,6 +124,25 @@ function ContactPage() {
                             <p className="mt-3 text-sm text-white/60 leading-relaxed group-hover:text-white/80 transition-colors">{card.text}</p>
                         </div>
                     ))}
+                </div>
+
+                <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+                    <h2 className="text-white font-bold tracking-tight">{lang === "tr" ? "Instagram" : "Instagram"}</h2>
+                    <div className="mt-4 flex flex-wrap gap-3">
+                        {SOCIAL_LINKS.map((item) => (
+                            <a
+                                key={item.title}
+                                href={item.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/75 transition-all hover:border-cyan-400/40 hover:text-cyan-300"
+                            >
+                                {item.kind === "x" ? <span className="text-[12px] font-bold">X</span> : <Instagram size={12} />}
+                                {item.title}
+                                <ArrowUpRight size={12} className="opacity-60" />
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
         </LegalShell>
