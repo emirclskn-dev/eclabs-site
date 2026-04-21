@@ -23,7 +23,7 @@ const TRANSLATIONS = {
                     { label: "Atlasly Gizlilik Politikası", to: "/privacy-atlasly" },
                     { label: "SaatlikAyet Gizlilik Politikası", to: "/privacy-saatlikayet" },
                     { label: "NovaGaia: Ascend Gizlilik Politikası", to: "/privacy-novagaia-ascend" },
-                    { label: "GymNova Gizlilik Politikası", to: "/privacy-gymnova" },
+                    { label: "Sporio Gizlilik Politikası", to: "/privacy-sporio" },
                 ],
             },
             {
@@ -52,7 +52,7 @@ const TRANSLATIONS = {
                     { label: "Atlasly Privacy Policy", to: "/privacy-atlasly" },
                     { label: "SaatlikAyet Privacy Policy", to: "/privacy-saatlikayet" },
                     { label: "NovaGaia: Ascend Privacy Policy", to: "/privacy-novagaia-ascend" },
-                    { label: "GymNova Privacy Policy", to: "/privacy-gymnova" },
+                    { label: "Sporio Privacy Policy", to: "/privacy-sporio" },
                 ],
             },
             {

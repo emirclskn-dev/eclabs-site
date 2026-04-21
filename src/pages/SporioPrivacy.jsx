@@ -2,27 +2,27 @@ import React from "react";
 import LegalShell from "../components/layout/LegalShell";
 import { useLanguage } from "../context/LanguageContext";
 
-function GymNovaPrivacyPage() {
+function SporioPrivacyPage() {
     const { lang } = useLanguage();
 
     if (lang === "tr") {
         return (
-            <LegalShell title="GymNova – Gizlilik Politikası">
+            <LegalShell title="Sporio – Gizlilik Politikası">
                 <div className="space-y-6">
                     <p className="text-white/40 text-xs">
                         Son güncelleme: 21 Nisan 2026<br />
                         Yürürlük tarihi: 21 Nisan 2026
                     </p>
 
-                    <p>GymNova olarak gizliliğinize önem veriyoruz. Bu Gizlilik Politikası, uygulamamızı kullandığınızda hangi bilgilerin işlendiğini, bunların nasıl kullanıldığını ve nasıl korunduğunu açıklar.</p>
+                    <p>Sporio olarak gizliliğinize önem veriyoruz. Bu Gizlilik Politikası, uygulamamızı kullandığınızda hangi bilgilerin işlendiğini, bunların nasıl kullanıldığını ve nasıl korunduğunu açıklar.</p>
 
                     <section>
                         <h2 className="text-white font-bold tracking-tight mb-3">1. Toplanan Bilgiler</h2>
-                        <p>GymNova, sunduğu özelliklere bağlı olarak aşağıdaki bilgileri işleyebilir:</p>
+                        <p>Sporio, sunduğu özelliklere bağlı olarak aşağıdaki bilgileri işleyebilir:</p>
                         <ul className="list-disc pl-5 mt-2 space-y-1 text-white/70">
                             <li>Kullanıcının uygulama içinde girdiği bilgiler (ör. isim, boy, kilo, hedef, antrenman planı, seçilen hareketler, set/tekrar bilgileri)</li>
                             <li>Uygulama kullanım verileri (ör. antrenman tamamlama durumu, uygulama içi etkileşimler, istatistik verileri)</li>
-                            <li>Sağlık verileri: Eğer kullanıcı açık izin verirse, GymNova Apple Health / HealthKit üzerinden belirli sağlık ve aktivite verilerine erişebilir. Bu veriler yalnızca uygulama işlevlerini sunmak ve kullanıcı deneyimini geliştirmek amacıyla kullanılır.</li>
+                            <li>Sağlık verileri: Eğer kullanıcı açık izin verirse, Sporio Apple Health / HealthKit üzerinden belirli sağlık ve aktivite verilerine erişebilir. Bu veriler yalnızca uygulama işlevlerini sunmak ve kullanıcı deneyimini geliştirmek amacıyla kullanılır.</li>
                         </ul>
                     </section>
 
@@ -40,12 +40,12 @@ function GymNovaPrivacyPage() {
                     <section>
                         <h2 className="text-white font-bold tracking-tight mb-3">3. Sağlık Verileri</h2>
                         <p>Sağlık verileri, yalnızca kullanıcının açık izniyle ve Apple’ın izin mekanizmaları kapsamında erişilir.</p>
-                        <p className="mt-2 text-white/70">GymNova, HealthKit verilerini reklam amacıyla kullanmaz ve üçüncü taraflarla satmaz.</p>
+                        <p className="mt-2 text-white/70">Sporio, HealthKit verilerini reklam amacıyla kullanmaz ve üçüncü taraflarla satmaz.</p>
                     </section>
 
                     <section>
                         <h2 className="text-white font-bold tracking-tight mb-3">4. Veri Paylaşımı</h2>
-                        <p>GymNova, kişisel verilerinizi satmaz. Verileriniz yalnızca aşağıdaki durumlarda paylaşılabilir:</p>
+                        <p>Sporio, kişisel verilerinizi satmaz. Verileriniz yalnızca aşağıdaki durumlarda paylaşılabilir:</p>
                         <ul className="list-disc pl-5 mt-2 space-y-1 text-white/70">
                             <li>Yasal yükümlülüklerin yerine getirilmesi gerektiğinde</li>
                             <li>Hizmet sağlayıcılarla, yalnızca uygulamanın çalışması için gerekli olduğu ölçüde</li>
@@ -60,17 +60,17 @@ function GymNovaPrivacyPage() {
 
                     <section>
                         <h2 className="text-white font-bold tracking-tight mb-3">6. Veri Güvenliği</h2>
-                        <p>GymNova, kullanıcı verilerini korumak için makul teknik ve idari önlemler uygular. Ancak hiçbir dijital sistemin tamamen risksiz olduğu garanti edilemez.</p>
+                        <p>Sporio, kullanıcı verilerini korumak için makul teknik ve idari önlemler uygular. Ancak hiçbir dijital sistemin tamamen risksiz olduğu garanti edilemez.</p>
                     </section>
 
                     <section>
                         <h2 className="text-white font-bold tracking-tight mb-3">7. Çocukların Gizliliği</h2>
-                        <p>GymNova, çocuklardan bilerek kişisel veri toplamak üzere tasarlanmamıştır. Eğer bir ebeveyn veya yasal temsilci, çocuğa ait verilerin uygulama tarafından işlendiğini düşünüyorsa bizimle iletişime geçebilir.</p>
+                        <p>Sporio, çocuklardan bilerek kişisel veri toplamak üzere tasarlanmamıştır. Eğer bir ebeveyn veya yasal temsilci, çocuğa ait verilerin uygulama tarafından işlendiğini düşünüyorsa bizimle iletişime geçebilir.</p>
                     </section>
 
                     <section>
                         <h2 className="text-white font-bold tracking-tight mb-3">8. Üçüncü Taraf Hizmetler</h2>
-                        <p>GymNova, uygulamanın işleyişi için Apple Health / HealthKit, analiz, hata raporlama veya benzeri üçüncü taraf hizmetleri kullanabilir. Bu hizmetlerin veri işleme yöntemleri kendi gizlilik politikalarına tabidir.</p>
+                        <p>Sporio, uygulamanın işleyişi için Apple Health / HealthKit, analiz, hata raporlama veya benzeri üçüncü taraf hizmetleri kullanabilir. Bu hizmetlerin veri işleme yöntemleri kendi gizlilik politikalarına tabidir.</p>
                     </section>
 
                     <section>
@@ -98,22 +98,22 @@ function GymNovaPrivacyPage() {
     }
 
     return (
-        <LegalShell title="GymNova – Privacy Policy">
+        <LegalShell title="Sporio – Privacy Policy">
             <div className="space-y-6">
                 <p className="text-white/40 text-xs">
                     Last updated: April 21, 2026<br />
                     Effective date: April 21, 2026
                 </p>
 
-                <p>At GymNova, we value your privacy. This Privacy Policy explains what information may be processed when you use our app, how it is used, and how it is protected.</p>
+                <p>At Sporio, we value your privacy. This Privacy Policy explains what information may be processed when you use our app, how it is used, and how it is protected.</p>
 
                 <section>
                     <h2 className="text-white font-bold tracking-tight mb-3">1. Information We Collect</h2>
-                    <p>Depending on the features you use, GymNova may process the following information:</p>
+                    <p>Depending on the features you use, Sporio may process the following information:</p>
                     <ul className="list-disc pl-5 mt-2 space-y-1 text-white/70">
                         <li>Information entered by the user within the app (such as name, height, weight, goals, workout plans, selected exercises, set/rep data)</li>
                         <li>App usage data (such as workout completion status, in-app interactions, and statistics)</li>
-                        <li>Health data: If the user grants permission, GymNova may access certain health and activity data through Apple Health / HealthKit. This data is used only to provide app functionality and improve the user experience.</li>
+                        <li>Health data: If the user grants permission, Sporio may access certain health and activity data through Apple Health / HealthKit. This data is used only to provide app functionality and improve the user experience.</li>
                     </ul>
                 </section>
 
@@ -131,12 +131,12 @@ function GymNovaPrivacyPage() {
                 <section>
                     <h2 className="text-white font-bold tracking-tight mb-3">3. Health Data</h2>
                     <p>Health data is accessed only with the user&apos;s explicit permission and through Apple&apos;s authorization mechanisms.</p>
-                    <p className="mt-2 text-white/70">GymNova does not use HealthKit data for advertising purposes and does not sell it to third parties.</p>
+                    <p className="mt-2 text-white/70">Sporio does not use HealthKit data for advertising purposes and does not sell it to third parties.</p>
                 </section>
 
                 <section>
                     <h2 className="text-white font-bold tracking-tight mb-3">4. Data Sharing</h2>
-                    <p>GymNova does not sell personal data. Your data may only be shared in the following cases:</p>
+                    <p>Sporio does not sell personal data. Your data may only be shared in the following cases:</p>
                     <ul className="list-disc pl-5 mt-2 space-y-1 text-white/70">
                         <li>When required to comply with legal obligations</li>
                         <li>With service providers, only to the extent necessary for operating the app</li>
@@ -151,17 +151,17 @@ function GymNovaPrivacyPage() {
 
                 <section>
                     <h2 className="text-white font-bold tracking-tight mb-3">6. Data Security</h2>
-                    <p>GymNova uses reasonable technical and organizational measures to protect user data. However, no digital system can be guaranteed to be completely secure.</p>
+                    <p>Sporio uses reasonable technical and organizational measures to protect user data. However, no digital system can be guaranteed to be completely secure.</p>
                 </section>
 
                 <section>
                     <h2 className="text-white font-bold tracking-tight mb-3">7. Children&apos;s Privacy</h2>
-                    <p>GymNova is not designed to knowingly collect personal data from children. If a parent or legal guardian believes that data relating to a child has been processed by the app, they may contact us.</p>
+                    <p>Sporio is not designed to knowingly collect personal data from children. If a parent or legal guardian believes that data relating to a child has been processed by the app, they may contact us.</p>
                 </section>
 
                 <section>
                     <h2 className="text-white font-bold tracking-tight mb-3">8. Third-Party Services</h2>
-                    <p>GymNova may use third-party services such as Apple Health / HealthKit, analytics, crash reporting, or similar services to operate the app. These services may process data in accordance with their own privacy policies.</p>
+                    <p>Sporio may use third-party services such as Apple Health / HealthKit, analytics, crash reporting, or similar services to operate the app. These services may process data in accordance with their own privacy policies.</p>
                 </section>
 
                 <section>
@@ -188,4 +188,4 @@ function GymNovaPrivacyPage() {
     );
 }
 
-export default GymNovaPrivacyPage;
+export default SporioPrivacyPage;

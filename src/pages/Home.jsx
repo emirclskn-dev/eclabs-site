@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
 import { DisabledCTA, PrimaryCTA, SecondaryCTA } from "../components/common/Buttons";
-import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY, GYMNOVA_TESTFLIGHT } from "../constants";
+import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY, SPORIO_TESTFLIGHT } from "../constants";
 import { useAudio } from "../context/AudioContext";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -233,19 +233,19 @@ function Home() {
             novagaia_status: "Early development. Playtest and release details will be shared later.",
             novagaia_helper: "Get development updates by email",
             novagaia_ascend_desc: "Atmospheric tower-building game focused on balance, timing, and flow. Stack higher, protect your rhythm, and climb in Endless or Story Mode.",
-            gymnova_desc: "A premium, modular fitness companion. Discover exercises, build custom workouts, and track your progress with absolute clarity.",
+            sporio_desc: "A premium, modular fitness companion. Discover exercises, build custom workouts, and track your progress with absolute clarity.",
             atlasly_badge: "Out Now",
             saatlikayet_badge: "Out Now",
             novagaia_badge: "In Development",
             novagaia_ascend_badge: "Out Now",
-            gymnova_badge: "TestFlight",
+            sporio_badge: "TestFlight",
             atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Download on App Store",
             novagaia_ascend_primary: "Download on App Store",
-            gymnova_primary: "Join TestFlight",
+            sporio_primary: "Join TestFlight",
             novagaia_action: "EXPRESS INTEREST",
             novagaia_ascend_action: "DOWNLOAD ON APP STORE",
-            gymnova_action: "JOIN TESTFLIGHT",
+            sporio_action: "JOIN TESTFLIGHT",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
@@ -256,19 +256,19 @@ function Home() {
             novagaia_status: "Erken geliştirme aşamasında. Playtest ve çıkış detayları daha sonra paylaşılacak.",
             novagaia_helper: "Geliştirme güncellemelerini e-postayla alın",
             novagaia_ascend_desc: "Denge, zamanlama ve akış odaklı atmosferik kule kurma oyunu. Sonsuz veya Hikâye Modu'nda daha yükseğe çık, ritmini koru ve yüksel.",
-            gymnova_desc: "Premium ve modüler fitness asistanı. Egzersizleri keşfedin, özel antrenmanlar oluşturun ve gelişiminizi net bir şekilde takip edin.",
+            sporio_desc: "Premium ve modüler fitness asistanı. Egzersizleri keşfedin, özel antrenmanlar oluşturun ve gelişiminizi net bir şekilde takip edin.",
             atlasly_badge: "Yayında",
             saatlikayet_badge: "Yayında",
             novagaia_badge: "Geliştirme Aşamasında",
             novagaia_ascend_badge: "Yayında",
-            gymnova_badge: "TestFlight",
+            sporio_badge: "TestFlight",
             atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "App Store'dan İndir",
             novagaia_ascend_primary: "App Store'dan İndir",
-            gymnova_primary: "TestFlight'a Katıl",
+            sporio_primary: "TestFlight'a Katıl",
             novagaia_action: "İLGİMİ BİLDİR",
             novagaia_ascend_action: "APP STORE'DAN İNDİR",
-            gymnova_action: "TESTFLIGHT'A KATIL",
+            sporio_action: "TESTFLIGHT'A KATIL",
         },
     }[lang];
 
@@ -279,7 +279,7 @@ function Home() {
             "SaatlikAyet sahnesine git",
             "Nova Gaia sahnesine git",
             "NovaGaia Ascend sahnesine git",
-            "GymNova sahnesine git",
+            "Sporio sahnesine git",
         ]
         : [
             "Go to lab scene",
@@ -287,7 +287,7 @@ function Home() {
             "Go to SaatlikAyet scene",
             "Go to Nova Gaia scene",
             "Go to NovaGaia Ascend scene",
-            "Go to GymNova scene",
+            "Go to Sporio scene",
         ];
 
     return (
@@ -343,7 +343,7 @@ function Home() {
                             { label: "SAATLİKAYET", textColor: "text-amber-400", glowColor: "rgba(245,158,11,0.4)" },
                             { label: "NOVA GAIA", textColor: "text-purple-400", glowColor: "rgba(168,85,247,0.4)" },
                             { label: "ASCEND", textColor: "text-orange-400", glowColor: "rgba(249,115,22,0.4)" },
-                            { label: "GYMNOVA", textColor: "text-emerald-400", glowColor: "rgba(16,185,129,0.4)" },
+                            { label: "SPORIO", textColor: "text-emerald-400", glowColor: "rgba(16,185,129,0.4)" },
                         ].map((tab, i) => (
                             <button
                                 key={i}
@@ -579,7 +579,7 @@ function Home() {
                     </div>
                 </div>
 
-                {/* Scene 5: GymNova */}
+                {/* Scene 5: Sporio */}
                 <div
                     className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 5 ? "pointer-events-auto" : "pointer-events-none"}`}
                     style={{
@@ -593,16 +593,16 @@ function Home() {
                         zIndex: activeScene === 5 ? 20 : 10
                     }}
                 >
-                    <AppIcon src="/gymnova-icon.jpg" alt="GymNova" fallbackGradient="from-emerald-500 to-green-700" glowColor="bg-emerald-500" />
+                    <AppIcon src="/sporio-icon.jpg" alt="Sporio" fallbackGradient="from-emerald-500 to-green-700" glowColor="bg-emerald-500" />
                     <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 5 ? "pointer-events-auto" : "pointer-events-none"}`}>
-                        <div className="inline-block px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[8px] text-emerald-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.gymnova_badge}</div>
-                        <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">GymNova</h2>
-                        <p className="text-white/40 text-xs leading-relaxed mt-4 mb-4">{t_copy.gymnova_desc}</p>
-                        <Link to="/privacy-gymnova" className="inline-block mb-6 text-[10px] text-emerald-400/60 hover:text-emerald-400 underline decoration-emerald-400/20 underline-offset-4 transition-colors">
+                        <div className="inline-block px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[8px] text-emerald-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.sporio_badge}</div>
+                        <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">Sporio</h2>
+                        <p className="text-white/40 text-xs leading-relaxed mt-4 mb-4">{t_copy.sporio_desc}</p>
+                        <Link to="/privacy-sporio" className="inline-block mb-6 text-[10px] text-emerald-400/60 hover:text-emerald-400 underline decoration-emerald-400/20 underline-offset-4 transition-colors">
                             {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
                         </Link>
                         <div className="flex items-center justify-center">
-                            <PrimaryCTA href={GYMNOVA_TESTFLIGHT} label={t_copy.gymnova_action} theme="green" />
+                            <PrimaryCTA href={SPORIO_TESTFLIGHT} label={t_copy.sporio_action} theme="green" />
                         </div>
                     </div>
                 </div>
