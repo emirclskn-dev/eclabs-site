@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
 import { DisabledCTA, PrimaryCTA, SecondaryCTA } from "../components/common/Buttons";
-import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY } from "../constants";
+import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY, GYMNOVA_TESTFLIGHT } from "../constants";
 import { useAudio } from "../context/AudioContext";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -215,7 +215,7 @@ function Home() {
 
 
     const setScene = (sceneIndex) => {
-        const targets = [0.0, 0.25, 0.5, 0.75, 1.0];
+        const targets = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0];
         const clamped = Math.max(0, Math.min(sceneIndex, targets.length - 1));
         playUiFx("click");
         targetScroll.current = targets[clamped];
@@ -233,15 +233,19 @@ function Home() {
             novagaia_status: "Early development. Playtest and release details will be shared later.",
             novagaia_helper: "Get development updates by email",
             novagaia_ascend_desc: "Atmospheric tower-building game focused on balance, timing, and flow. Stack higher, protect your rhythm, and climb in Endless or Story Mode.",
+            gymnova_desc: "A premium, modular fitness companion. Discover exercises, build custom workouts, and track your progress with absolute clarity.",
             atlasly_badge: "Out Now",
             saatlikayet_badge: "Out Now",
             novagaia_badge: "In Development",
             novagaia_ascend_badge: "Out Now",
+            gymnova_badge: "TestFlight",
             atlasly_primary: "Download on App Store",
             saatlikayet_primary: "Download on App Store",
             novagaia_ascend_primary: "Download on App Store",
+            gymnova_primary: "Join TestFlight",
             novagaia_action: "EXPRESS INTEREST",
             novagaia_ascend_action: "DOWNLOAD ON APP STORE",
+            gymnova_action: "JOIN TESTFLIGHT",
         },
         tr: {
             intro: "Laboratuvarı keşfetmek için kaydırın",
@@ -252,15 +256,19 @@ function Home() {
             novagaia_status: "Erken geliştirme aşamasında. Playtest ve çıkış detayları daha sonra paylaşılacak.",
             novagaia_helper: "Geliştirme güncellemelerini e-postayla alın",
             novagaia_ascend_desc: "Denge, zamanlama ve akış odaklı atmosferik kule kurma oyunu. Sonsuz veya Hikâye Modu'nda daha yükseğe çık, ritmini koru ve yüksel.",
+            gymnova_desc: "Premium ve modüler fitness asistanı. Egzersizleri keşfedin, özel antrenmanlar oluşturun ve gelişiminizi net bir şekilde takip edin.",
             atlasly_badge: "Yayında",
             saatlikayet_badge: "Yayında",
             novagaia_badge: "Geliştirme Aşamasında",
             novagaia_ascend_badge: "Yayında",
+            gymnova_badge: "TestFlight",
             atlasly_primary: "App Store'dan İndir",
             saatlikayet_primary: "App Store'dan İndir",
             novagaia_ascend_primary: "App Store'dan İndir",
+            gymnova_primary: "TestFlight'a Katıl",
             novagaia_action: "İLGİMİ BİLDİR",
             novagaia_ascend_action: "APP STORE'DAN İNDİR",
+            gymnova_action: "TESTFLIGHT'A KATIL",
         },
     }[lang];
 
@@ -271,6 +279,7 @@ function Home() {
             "SaatlikAyet sahnesine git",
             "Nova Gaia sahnesine git",
             "NovaGaia Ascend sahnesine git",
+            "GymNova sahnesine git",
         ]
         : [
             "Go to lab scene",
@@ -278,6 +287,7 @@ function Home() {
             "Go to SaatlikAyet scene",
             "Go to Nova Gaia scene",
             "Go to NovaGaia Ascend scene",
+            "Go to GymNova scene",
         ];
 
     return (
@@ -307,7 +317,7 @@ function Home() {
                 {/* Mobile: Dot Navigation */}
                 <div className="md:hidden absolute right-3 top-1/2 -translate-y-1/2 z-40 pointer-events-auto select-none">
                     <div className="flex flex-col items-center gap-3">
-                        {[0, 1, 2, 3, 4].map((i) => (
+                        {[0, 1, 2, 3, 4, 5].map((i) => (
                             <button
                                 key={i}
                                 type="button"
@@ -333,6 +343,7 @@ function Home() {
                             { label: "SAATLİKAYET", textColor: "text-amber-400", glowColor: "rgba(245,158,11,0.4)" },
                             { label: "NOVA GAIA", textColor: "text-purple-400", glowColor: "rgba(168,85,247,0.4)" },
                             { label: "ASCEND", textColor: "text-orange-400", glowColor: "rgba(249,115,22,0.4)" },
+                            { label: "GYMNOVA", textColor: "text-emerald-400", glowColor: "rgba(16,185,129,0.4)" },
                         ].map((tab, i) => (
                             <button
                                 key={i}
@@ -568,6 +579,34 @@ function Home() {
                     </div>
                 </div>
 
+                {/* Scene 5: GymNova */}
+                <div
+                    className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 5 ? "pointer-events-auto" : "pointer-events-none"}`}
+                    style={{
+                        opacity: activeScene === 5 ? 1 : 0,
+                        transform: activeScene === 5
+                            ? "translateZ(0) rotateY(0) scale(1)"
+                            : activeScene > 5
+                                ? (isMobile ? "translateZ(-600px) rotateY(-40deg) translateX(-40%)" : "translateZ(-1200px) rotateY(-70deg) translateX(-120%)")
+                                : (isMobile ? "translateZ(-800px) rotateY(40deg) translateX(50%)" : "translateZ(-1800px) rotateY(70deg) translateX(150%)"),
+                        filter: activeScene === 5 ? "blur(0px)" : "blur(40px)",
+                        zIndex: activeScene === 5 ? 20 : 10
+                    }}
+                >
+                    <AppIcon src="/gymnova-icon.jpg" alt="GymNova" fallbackGradient="from-emerald-500 to-green-700" glowColor="bg-emerald-500" />
+                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 5 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                        <div className="inline-block px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[8px] text-emerald-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.gymnova_badge}</div>
+                        <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">GymNova</h2>
+                        <p className="text-white/40 text-xs leading-relaxed mt-4 mb-4">{t_copy.gymnova_desc}</p>
+                        <Link to="/privacy-gymnova" className="inline-block mb-6 text-[10px] text-emerald-400/60 hover:text-emerald-400 underline decoration-emerald-400/20 underline-offset-4 transition-colors">
+                            {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
+                        </Link>
+                        <div className="flex items-center justify-center">
+                            <PrimaryCTA href={GYMNOVA_TESTFLIGHT} label={t_copy.gymnova_action} theme="green" />
+                        </div>
+                    </div>
+                </div>
+
                 {/* Orbital Star Particles (Trails) */}
                 {[...Array(6)].map((_, i) => (
                     <div
@@ -581,8 +620,10 @@ function Home() {
                                     ? `translateZ(${-200 - i * 50}px) rotateY(${10 - i * 5}deg) translateX(${-10 + i * 20}%)`
                                     : activeScene === 2
                                         ? `translateZ(${-200 - i * 50}px) rotateY(${-10 + i * 5}deg) translateX(${10 - i * 20}%)`
-                                        : `translateZ(${-400 - i * 100}px) rotateY(${-45 + i * 15}deg) translateX(${-50 + i * 30}%)`,
-                            boxShadow: `0 0 10px white, 0 0 20px ${activeScene === 2 ? '#f59e0b' : activeScene === 3 ? '#a855f7' : '#22D3EE'}`
+                                        : activeScene === 5
+                                            ? `translateZ(${-200 - i * 50}px) rotateY(${15 - i * 5}deg) translateX(${-15 + i * 20}%)`
+                                            : `translateZ(${-400 - i * 100}px) rotateY(${-45 + i * 15}deg) translateX(${-50 + i * 30}%)`,
+                            boxShadow: `0 0 10px white, 0 0 20px ${activeScene === 2 ? '#f59e0b' : activeScene === 3 ? '#a855f7' : activeScene === 5 ? '#10b981' : '#22D3EE'}`
                         }}
                     />
                 ))}

@@ -6,6 +6,7 @@ import PrivacyPage from "./pages/Privacy";
 import SaatlikAyetPrivacyPage from "./pages/SaatlikAyetPrivacy";
 import AtlaslyPrivacyPage from "./pages/AtlaslyPrivacy";
 import NovagaiaAscendPrivacyPage from "./pages/NovagaiaAscendPrivacy";
+import GymNovaPrivacyPage from "./pages/GymNovaPrivacy";
 import TermsPage from "./pages/Terms";
 import ContactPage from "./pages/Contact";
 
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/privacy-saatlikayet" element={<SaatlikAyetPrivacyPage />} />
         <Route path="/privacy-atlasly" element={<AtlaslyPrivacyPage />} />
         <Route path="/privacy-novagaia-ascend" element={<NovagaiaAscendPrivacyPage />} />
+        <Route path="/privacy-gymnova" element={<GymNovaPrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>

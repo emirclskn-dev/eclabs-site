@@ -7,7 +7,7 @@ import { Calendar, ArrowUpRight, Mail } from "lucide-react";
 const TRANSLATIONS = {
     tr: {
         title: "Gizlilik Politikası",
-        updated: "Son güncelleme: 26 Şubat 2026",
+        updated: "Son güncelleme: 21 Nisan 2026",
         intro: "Bu web sitesi (ECLABS) ürün tanıtımı ve iletişim amaçlı bir 'landing' sayfasıdır. Bu sitede kullanıcı hesabı oluşturulmaz ve doğrudan profil/üyelik bazlı kişisel veri işleme yapılmaz.",
         sections: [
             {
@@ -23,6 +23,7 @@ const TRANSLATIONS = {
                     { label: "Atlasly Gizlilik Politikası", to: "/privacy-atlasly" },
                     { label: "SaatlikAyet Gizlilik Politikası", to: "/privacy-saatlikayet" },
                     { label: "NovaGaia: Ascend Gizlilik Politikası", to: "/privacy-novagaia-ascend" },
+                    { label: "GymNova Gizlilik Politikası", to: "/privacy-gymnova" },
                 ],
             },
             {
@@ -34,7 +35,7 @@ const TRANSLATIONS = {
     },
     en: {
         title: "Privacy Policy",
-        updated: "Last updated: February 26, 2026",
+        updated: "Last updated: April 21, 2026",
         intro: "This website (ECLABS) is a landing page for product information and contact purposes. We do not provide user accounts on this site and we do not process profile-based personal data through a login system.",
         sections: [
             {
@@ -51,6 +52,7 @@ const TRANSLATIONS = {
                     { label: "Atlasly Privacy Policy", to: "/privacy-atlasly" },
                     { label: "SaatlikAyet Privacy Policy", to: "/privacy-saatlikayet" },
                     { label: "NovaGaia: Ascend Privacy Policy", to: "/privacy-novagaia-ascend" },
+                    { label: "GymNova Privacy Policy", to: "/privacy-gymnova" },
                 ],
             },
             {
