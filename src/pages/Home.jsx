@@ -360,7 +360,17 @@ function Home() {
                 </div>
 
                 <nav className="absolute top-0 z-40 w-full p-5 md:p-8 flex justify-between items-center opacity-40">
-                    <div className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400">ECLABS</div>
+                    <button
+                        type="button"
+                        onMouseEnter={() => playUiFx("hover")}
+                        onClick={() => {
+                            playUiFx("click");
+                            setScene(0);
+                        }}
+                        className="text-xs tracking-[0.5em] font-bold uppercase text-cyan-400 hover:text-cyan-300 transition-colors pointer-events-auto"
+                    >
+                        ECLABS
+                    </button>
                     <div className="flex items-center gap-3 pointer-events-auto">
                         <Link to="/contact" className="text-[10px] tracking-widest font-mono bg-white/5 border border-white/10 px-4 py-1.5 rounded-full hover:bg-cyan-500 hover:text-black transition-all">
                             {lang === "tr" ? "İLETİŞİM" : "CONTACT"}
@@ -629,7 +639,7 @@ function Home() {
                 ))}
 
 
-                <footer className="absolute bottom-0 z-40 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
+                <footer className="absolute bottom-0 z-30 w-full p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 opacity-30">
                     <div className="text-[10px] tracking-[0.4em] font-mono text-white/50 pointer-events-auto">© 2026 ECLABS • <a href={`mailto:${WAITLIST_EMAIL}`} className="hover:text-cyan-400 transition-colors">{WAITLIST_EMAIL}</a></div>
                     <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-[9px] tracking-widest font-bold uppercase pointer-events-auto">
                         <button

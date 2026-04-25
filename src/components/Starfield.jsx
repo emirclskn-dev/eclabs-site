@@ -186,21 +186,24 @@ const Starfield = ({
 
             let newScene = 0;
             const targetColor = new THREE.Color(0x22d3ee);
-            if (t < 0.12) {
+            if (t < 0.1) {
                 newScene = 0;
                 targetColor.set(0x22d3ee);
-            } else if (t < 0.37) {
+            } else if (t < 0.3) {
                 newScene = 1;
                 targetColor.set(0x22d3ee);
-            } else if (t < 0.62) {
+            } else if (t < 0.5) {
                 newScene = 2;
                 targetColor.set(0xf59e0b);
-            } else if (t < 0.87) {
+            } else if (t < 0.7) {
                 newScene = 3;
                 targetColor.set(0xa855f7);
-            } else {
+            } else if (t < 0.9) {
                 newScene = 4;
                 targetColor.set(0xf97316); // Orange for Ascend
+            } else {
+                newScene = 5;
+                targetColor.set(0x10b981); // Emerald for Sporio
             }
 
             if (newScene !== activeSceneRef.current) {
