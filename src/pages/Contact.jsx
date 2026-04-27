@@ -23,6 +23,11 @@ const SOCIAL_LINKS = [
         href: "https://x.com/saatlikayet?s=21&t=Rxy-xbcjAe8Io4ETD_kuVA",
         kind: "x",
     },
+    {
+        title: "Sporio Instagram",
+        href: "https://www.instagram.com/sporioapp?igsh=YW9xdWIzMXNmNzA3&utm_source=qr",
+        kind: "instagram",
+    },
 ];
 
 const TRANSLATIONS = {
