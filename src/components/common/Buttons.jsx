@@ -41,7 +41,9 @@ export const PrimaryCTA = ({ href, label, theme = "cyan" }) => {
         cyan: "bg-cyan-500 hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]",
         amber: "bg-amber-500 hover:bg-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.4)]",
         purple: "bg-purple-500 hover:bg-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]",
-        green: "bg-emerald-500 hover:bg-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+        green: "bg-emerald-500 hover:bg-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]",
+        orange: "bg-orange-500 hover:bg-orange-400 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]",
+        gray: "bg-gray-500 hover:bg-gray-400 hover:shadow-[0_0_20px_rgba(107,114,128,0.4)]"
     };
 
     return (

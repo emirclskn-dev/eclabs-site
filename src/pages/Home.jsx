@@ -12,7 +12,7 @@ import { getTranslations } from "../locales";
 const GlobalStyles = () => (
     <style>{`
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: black; -webkit-font-smoothing: antialiased; color-scheme: dark; }
+    body { margin: 0; background: #000; -webkit-font-smoothing: antialiased; color-scheme: dark; }
     .font-display { font-family: 'Space Grotesk', sans-serif; }
     ::-webkit-scrollbar { display: none; }
     * { box-sizing: border-box; -ms-overflow-style: none; scrollbar-width: none; }
@@ -403,7 +403,7 @@ function Home() {
                 <div
                     className={`absolute inset-0 flex flex-col items-center justify-center px-6 scene-card ${activeScene === 1 ? "pointer-events-auto" : "pointer-events-none"}`}
                     style={{
-                        opacity: activeScene === 1 ? 1 : 0,
+                        opacity: activeScene === 0 ? 0 : (activeScene === 1 ? 1 : 0),
                         transform: activeScene === 1
                             ? "translateZ(0) rotateY(0) scale(1)"
                             : activeScene > 1
@@ -414,7 +414,7 @@ function Home() {
                     }}
                 >
                     <AppIcon src="/atlasly-new.png" alt="Atlasly" fallbackGradient="from-cyan-500 to-blue-600" glowColor="bg-cyan-500" />
-                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 1 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                    <div className={`text-center max-w-xs bg-cyan-500/5 border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-[0_0_40px_rgba(34,211,238,0.12)] ${activeScene === 1 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-[8px] text-cyan-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.atlasly_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tight">Atlasly</h2>
                         <p className="text-white/40 text-xs leading-relaxed mb-4">{t_copy.atlasly_desc}</p>
@@ -454,7 +454,7 @@ function Home() {
                     }}
                 >
                     <AppIcon src="/saatlikayet-icon.png" alt="SaatlikAyet" fallbackGradient="from-amber-500 to-orange-600" glowColor="bg-amber-500" />
-                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 2 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                    <div className={`text-center max-w-xs bg-amber-500/5 border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-[0_0_40px_rgba(245,158,11,0.12)] ${activeScene === 2 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[8px] text-amber-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.saatlikayet_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tight">SaatlikAyet</h2>
                         <p className="text-white/40 text-xs leading-relaxed mb-4">{t_copy.saatlikayet_desc}</p>
@@ -506,7 +506,7 @@ function Home() {
                     }}
                 >
                     <AppIcon src="/novagaia-icon.png" alt="Nova Gaia" fallbackGradient="from-purple-600 to-indigo-800" glowColor="bg-purple-500" />
-                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 3 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                    <div className={`text-center max-w-xs bg-purple-500/5 border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-[0_0_40px_rgba(168,85,247,0.12)] ${activeScene === 3 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-[8px] text-purple-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">Nova Gaia</h2>
                         <p className="text-white/40 text-xs leading-relaxed mt-4">{t_copy.novagaia_desc}</p>
@@ -537,16 +537,16 @@ function Home() {
                         zIndex: activeScene === 4 ? 20 : 10
                     }}
                 >
-                    <AppIcon src="/novagaia-ascend.png" alt="NovaGaia: Ascend" fallbackGradient="from-orange-600 to-red-800" glowColor="bg-orange-500" />
-                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 4 ? "pointer-events-auto" : "pointer-events-none"}`}>
-                        <div className="inline-block px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[8px] text-emerald-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_ascend_badge}</div>
+                    <AppIcon src="/novagaia-ascend.png" alt="NovaGaia: Ascend" fallbackGradient="from-gray-600 to-gray-800" glowColor="bg-gray-500" />
+                    <div className={`text-center max-w-xs bg-gray-500/5 border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-[0_0_40px_rgba(107,114,128,0.12)] ${activeScene === 4 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                        <div className="inline-block px-2 py-1 bg-gray-500/10 border border-gray-500/30 rounded-full text-[8px] text-gray-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.novagaia_ascend_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">NovaGaia: Ascend</h2>
                         <p className="text-white/40 text-xs leading-relaxed mt-4 mb-4">{t_copy.novagaia_ascend_desc}</p>
-                        <Link to="/privacy-novagaia-ascend" className="inline-block mb-6 text-[10px] text-emerald-400/60 hover:text-emerald-400 underline decoration-emerald-400/20 underline-offset-4 transition-colors">
+                        <Link to="/privacy-novagaia-ascend" className="inline-block mb-6 text-[10px] text-gray-400/60 hover:text-gray-400 underline decoration-gray-400/20 underline-offset-4 transition-colors">
                             {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
                         </Link>
                         <div className="flex items-center justify-center">
-                            <PrimaryCTA href={NOVAGAIA_ASCEND_NOTIFY} label={t_copy.novagaia_ascend_action} theme="green" />
+                            <PrimaryCTA href={NOVAGAIA_ASCEND_NOTIFY} label={t_copy.novagaia_ascend_action} theme="gray" />
                         </div>
                     </div>
                 </div>
@@ -566,7 +566,7 @@ function Home() {
                     }}
                 >
                     <AppIcon src="/sporio-icon.jpg" alt="Sporio" fallbackGradient="from-emerald-500 to-green-700" glowColor="bg-emerald-500" />
-                    <div className={`text-center max-w-xs bg-white/[0.03] border border-white/5 p-6 rounded-3xl backdrop-blur-xl ${activeScene === 5 ? "pointer-events-auto" : "pointer-events-none"}`}>
+                    <div className={`text-center max-w-xs bg-emerald-500/5 border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-[0_0_40px_rgba(16,185,129,0.12)] ${activeScene === 5 ? "pointer-events-auto" : "pointer-events-none"}`}>
                         <div className="inline-block px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-[8px] text-emerald-400 font-bold mb-4 uppercase tracking-[0.2em]">{t_copy.sporio_badge}</div>
                         <h2 className="text-3xl font-display font-bold mb-2 tracking-tighter">Sporio</h2>
                         <p className="text-white/40 text-xs leading-relaxed mt-4 mb-4">{t_copy.sporio_desc}</p>

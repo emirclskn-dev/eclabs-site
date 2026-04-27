@@ -24,19 +24,41 @@ const Starfield = ({
         let lastFpsT = performance.now();
         let frames = 0;
 
-        // Create a circular gradient texture for stars
+        // Create a 5-pointed star texture
         const getStarTexture = () => {
             const canvas = document.createElement("canvas");
             canvas.width = 32;
             canvas.height = 32;
             const context = canvas.getContext("2d");
-            const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
+            const cx = 16;
+            const cy = 16;
+            const outerRadius = 14;
+            const innerRadius = 6;
+            const spikes = 5;
+
+            context.beginPath();
+            for (let i = 0; i < spikes * 2; i++) {
+                const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                const angle = (Math.PI / spikes) * i - Math.PI / 2;
+                const x = cx + Math.cos(angle) * radius;
+                const y = cy + Math.sin(angle) * radius;
+                if (i === 0) {
+                    context.moveTo(x, y);
+                } else {
+                    context.lineTo(x, y);
+                }
+            }
+            context.closePath();
+
+            // Create gradient for glow effect
+            const gradient = context.createRadialGradient(cx, cy, 0, cx, cy, outerRadius);
             gradient.addColorStop(0, "rgba(255,255,255,1)");
-            gradient.addColorStop(0.2, "rgba(255,255,255,0.8)");
-            gradient.addColorStop(0.5, "rgba(255,255,255,0.2)");
-            gradient.addColorStop(1, "rgba(0,0,0,0)");
+            gradient.addColorStop(0.5, "rgba(255,255,255,0.8)");
+            gradient.addColorStop(1, "rgba(255,255,255,0)");
+            
             context.fillStyle = gradient;
-            context.fillRect(0, 0, 32, 32);
+            context.fill();
+            
             const texture = new THREE.CanvasTexture(canvas);
             return texture;
         };
@@ -69,7 +91,7 @@ const Starfield = ({
             renderer.domElement.style.display = "block";
             renderer.setClearColor(0x000000, 0);
 
-            const count = isMobile ? 1000 : 2500;
+            const count = isMobile ? 800 : 2000;
             const positions = new Float32Array(count * 3);
             originalPositions = new Float32Array(count * 3);
             velocities = new Float32Array(count * 3);
@@ -79,7 +101,7 @@ const Starfield = ({
                 const i3 = i * 3;
                 positions[i3] = (Math.random() - 0.5) * 80;
                 positions[i3 + 1] = (Math.random() - 0.5) * 80;
-                positions[i3 + 2] = (Math.random() - 0.5) * 400;
+                positions[i3 + 2] = -20 - Math.random() * 380;
 
                 originalPositions[i3] = positions[i3];
                 originalPositions[i3 + 1] = positions[i3 + 1];
@@ -120,10 +142,10 @@ const Starfield = ({
             const t = currentScroll.current;
             const easedProgress = 1 - Math.pow(1 - t, 3);
 
-            camera.position.z = 15 - easedProgress * 110;
+            camera.position.z = 15;
             camera.position.x += (mouse.current.x * 1.5 - camera.position.x) * 0.05;
             camera.position.y += (-mouse.current.y * 1.5 - camera.position.y) * 0.05;
-            camera.lookAt(0, 0, -easedProgress * 180);
+            camera.lookAt(0, 0, 0);
             particles.rotation.y += 0.0006;
             particles.rotation.x += 0.0002;
 
@@ -200,7 +222,7 @@ const Starfield = ({
                 targetColor.set(0xa855f7);
             } else if (t < 0.9) {
                 newScene = 4;
-                targetColor.set(0xf97316); // Orange for Ascend
+                targetColor.set(0x6b7280); // Gray for Ascend
             } else {
                 newScene = 5;
                 targetColor.set(0x10b981); // Emerald for Sporio
