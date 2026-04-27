@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import Starfield from "../components/Starfield";
 import AppIcon from "../components/common/AppIcon";
 import { DisabledCTA, PrimaryCTA, SecondaryCTA } from "../components/common/Buttons";
-import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY, SPORIO_TESTFLIGHT } from "../constants";
+import { WAITLIST_EMAIL, NOVA_GAIA_NOTIFY, NOVAGAIA_ASCEND_NOTIFY, SPORIO_APPSTORE } from "../constants";
 import { useAudio } from "../context/AudioContext";
 import { useLanguage } from "../context/LanguageContext";
+import { getTranslations } from "../locales";
 
 const GlobalStyles = () => (
     <style>{`
@@ -75,6 +76,7 @@ function Home() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [logoHover, setLogoHover] = useState(false);
     const [isAboutOpen, setIsAboutOpen] = useState(false);
+    const t_copy = getTranslations(lang);
 
     // Per-letter dissolve effect
     const letterRefs = useRef([]);
@@ -223,72 +225,7 @@ function Home() {
         setActiveScene(clamped);
     };
 
-    const t_copy = {
-        en: {
-            intro: "Scroll to explore the lab",
-            intro_subtitle: "ECLABS designs and ships thoughtful software with a strong focus on clarity, detail, and long-term product quality.",
-            atlasly_desc: "Private travel journal. Mark countries, attach notes, and keep travel memories organized.",
-            saatlikayet_desc: "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
-            novagaia_desc: "Post-human survival shooter currently in development. Short runs, high stakes, and score-chasing are taking shape.",
-            novagaia_status: "Early development. Playtest and release details will be shared later.",
-            novagaia_helper: "Get development updates by email",
-            novagaia_ascend_desc: "Atmospheric tower-building game focused on balance, timing, and flow. Stack higher, protect your rhythm, and climb in Endless or Story Mode.",
-            sporio_desc: "A premium, modular fitness companion. Discover exercises, build custom workouts, and track your progress with absolute clarity.",
-            atlasly_badge: "Out Now",
-            saatlikayet_badge: "Out Now",
-            novagaia_badge: "In Development",
-            novagaia_ascend_badge: "Out Now",
-            sporio_badge: "TestFlight",
-            atlasly_primary: "Download on App Store",
-            saatlikayet_primary: "Download on App Store",
-            novagaia_ascend_primary: "Download on App Store",
-            sporio_primary: "Join TestFlight",
-            novagaia_action: "EXPRESS INTEREST",
-            novagaia_ascend_action: "DOWNLOAD ON APP STORE",
-            sporio_action: "JOIN TESTFLIGHT",
-        },
-        tr: {
-            intro: "Laboratuvarı keşfetmek için kaydırın",
-            intro_subtitle: "ECLABS, yalın deneyim, detay hassasiyeti ve uzun vadeli ürün kalitesine odaklanan bir yazılım ürün geliştiricisidir.",
-            atlasly_desc: "Özel seyahat günlüğü. Ülkeleri işaretleyin, notlar ekleyin ve anılarınızı düzenleyin.",
-            saatlikayet_desc: "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
-            novagaia_desc: "Geliştirme aşamasındaki post-human hayatta kalma oyunu. Kısa run’lar, yüksek tempo ve rekor odaklı yapı şekilleniyor.",
-            novagaia_status: "Erken geliştirme aşamasında. Playtest ve çıkış detayları daha sonra paylaşılacak.",
-            novagaia_helper: "Geliştirme güncellemelerini e-postayla alın",
-            novagaia_ascend_desc: "Denge, zamanlama ve akış odaklı atmosferik kule kurma oyunu. Sonsuz veya Hikâye Modu'nda daha yükseğe çık, ritmini koru ve yüksel.",
-            sporio_desc: "Premium ve modüler fitness asistanı. Egzersizleri keşfedin, özel antrenmanlar oluşturun ve gelişiminizi net bir şekilde takip edin.",
-            atlasly_badge: "Yayında",
-            saatlikayet_badge: "Yayında",
-            novagaia_badge: "Geliştirme Aşamasında",
-            novagaia_ascend_badge: "Yayında",
-            sporio_badge: "TestFlight",
-            atlasly_primary: "App Store'dan İndir",
-            saatlikayet_primary: "App Store'dan İndir",
-            novagaia_ascend_primary: "App Store'dan İndir",
-            sporio_primary: "TestFlight'a Katıl",
-            novagaia_action: "İLGİMİ BİLDİR",
-            novagaia_ascend_action: "APP STORE'DAN İNDİR",
-            sporio_action: "TESTFLIGHT'A KATIL",
-        },
-    }[lang];
-
-    const sceneAriaLabels = lang === "tr"
-        ? [
-            "Laboratuvar sahnesine git",
-            "Atlasly sahnesine git",
-            "SaatlikAyet sahnesine git",
-            "Nova Gaia sahnesine git",
-            "NovaGaia Ascend sahnesine git",
-            "Sporio sahnesine git",
-        ]
-        : [
-            "Go to lab scene",
-            "Go to Atlasly scene",
-            "Go to SaatlikAyet scene",
-            "Go to Nova Gaia scene",
-            "Go to NovaGaia Ascend scene",
-            "Go to Sporio scene",
-        ];
+    const sceneAriaLabels = t_copy.scene_aria_labels;
 
     return (
         <div className="relative w-full h-screen bg-[#000] text-white overflow-hidden font-sans">
@@ -612,8 +549,17 @@ function Home() {
                             {lang === "tr" ? "Gizlilik Politikası" : "Privacy Policy"}
                         </Link>
                         <div className="flex items-center justify-center">
-                            <PrimaryCTA href={SPORIO_TESTFLIGHT} label={t_copy.sporio_action} theme="green" />
+                            <PrimaryCTA href={SPORIO_APPSTORE} label={t_copy.sporio_action} theme="green" />
                         </div>
+                        <a
+                            href="https://www.instagram.com/sporioapp?igsh=YW9xdWIzMXNmNzA3&utm_source=qr"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 mt-4 rounded-full border border-emerald-400/15 bg-emerald-400/5 px-3 py-1.5 text-[10px] text-emerald-300/70 transition-colors hover:text-emerald-300 hover:border-emerald-400/35"
+                        >
+                            <Instagram size={12} />
+                            @sporioapp
+                        </a>
                     </div>
                 </div>
 

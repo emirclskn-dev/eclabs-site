@@ -1,0 +1,31 @@
+{
+  "intro": "Laboratuvarı keşfetmek için kaydırın",
+  "intro_subtitle": "ECLABS, yalın deneyim, detay hassasiyeti ve uzun vadeli ürün kalitesine odaklanan bir yazılım ürün geliştiricisidir.",
+  "atlasly_desc": "Özel seyahat günlüğü. Ülkeleri işaretleyin, notlar ekleyin ve anılarınızı düzenleyin.",
+  "saatlikayet_desc": "Minimalist bir tasarımda günlük ayetler, doğru namaz vakitleri ve Esmaül Hüsna.",
+  "novagaia_desc": "Geliştirme aşamasındaki post-human hayatta kalma oyunu. Kısa run'lar, yüksek tempo ve rekor odaklı yapı şekilleniyor.",
+  "novagaia_status": "Erken geliştirme aşamasında. Playtest ve çıkış detayları daha sonra paylaşılacak.",
+  "novagaia_helper": "Geliştirme güncellemelerini e-postayla alın",
+  "novagaia_ascend_desc": "Denge, zamanlama ve akış odaklı atmosferik kule kurma oyunu. Sonsuz veya Hikâye Modu'nda daha yükseğe çık, ritmini koru ve yüksel.",
+  "sporio_desc": "Premium ve modüler fitness asistanı. Egzersizleri keşfedin, özel antrenmanlar oluşturun ve gelişiminizi net bir şekilde takip edin.",
+  "atlasly_badge": "Yayında",
+  "saatlikayet_badge": "Yayında",
+  "novagaia_badge": "Geliştirme Aşamasında",
+  "novagaia_ascend_badge": "Yayında",
+  "sporio_badge": "Yayında",
+  "atlasly_primary": "App Store'dan İndir",
+  "saatlikayet_primary": "App Store'dan İndir",
+  "novagaia_ascend_primary": "App Store'dan İndir",
+  "sporio_primary": "App Store'dan İndir",
+  "novagaia_action": "İLGİMİ BİLDİR",
+  "novagaia_ascend_action": "APP STORE'DAN İNDİR",
+  "sporio_action": "APP STORE'DAN İNDİR",
+  "scene_aria_labels": [
+    "Laboratuvar sahnesine git",
+    "Atlasly sahnesine git",
+    "SaatlikAyet sahnesine git",
+    "Nova Gaia sahnesine git",
+    "NovaGaia Ascend sahnesine git",
+    "Sporio sahnesine git"
+  ]
+}

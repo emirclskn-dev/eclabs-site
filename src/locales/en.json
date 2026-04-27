@@ -1,0 +1,31 @@
+{
+  "intro": "Scroll to explore the lab",
+  "intro_subtitle": "ECLABS designs and ships thoughtful software with a strong focus on clarity, detail, and long-term product quality.",
+  "atlasly_desc": "Private travel journal. Mark countries, attach notes, and keep travel memories organized.",
+  "saatlikayet_desc": "Daily Quran verses, precise prayer times, and Asmaul Husna in a minimal design.",
+  "novagaia_desc": "Post-human survival shooter currently in development. Short runs, high stakes, and score-chasing are taking shape.",
+  "novagaia_status": "Early development. Playtest and release details will be shared later.",
+  "novagaia_helper": "Get development updates by email",
+  "novagaia_ascend_desc": "Atmospheric tower-building game focused on balance, timing, and flow. Stack higher, protect your rhythm, and climb in Endless or Story Mode.",
+  "sporio_desc": "A premium, modular fitness companion. Discover exercises, build custom workouts, and track your progress with absolute clarity.",
+  "atlasly_badge": "Out Now",
+  "saatlikayet_badge": "Out Now",
+  "novagaia_badge": "In Development",
+  "novagaia_ascend_badge": "Out Now",
+  "sporio_badge": "Out Now",
+  "atlasly_primary": "Download on App Store",
+  "saatlikayet_primary": "Download on App Store",
+  "novagaia_ascend_primary": "Download on App Store",
+  "sporio_primary": "Download on App Store",
+  "novagaia_action": "EXPRESS INTEREST",
+  "novagaia_ascend_action": "DOWNLOAD ON APP STORE",
+  "sporio_action": "DOWNLOAD ON APP STORE",
+  "scene_aria_labels": [
+    "Go to lab scene",
+    "Go to Atlasly scene",
+    "Go to SaatlikAyet scene",
+    "Go to Nova Gaia scene",
+    "Go to NovaGaia Ascend scene",
+    "Go to Sporio scene"
+  ]
+}

@@ -4,7 +4,7 @@ export const SAATLIKAYET_NOTIFY = `mailto:${WAITLIST_EMAIL}?subject=SaatlikAyet%
 export const NOVA_GAIA_NOTIFY = `mailto:${WAITLIST_EMAIL}?subject=Nova%20Gaia%20Interest`;
 export const NOVAGAIA_ASCEND_NOTIFY = "https://apps.apple.com/tr/app/novagaia-ascend/id6760511659?l=tr";
 export const GYMNOVA_TESTFLIGHT = "https://testflight.apple.com/join/xxxxxx"; // Placeholder
-export const SPORIO_TESTFLIGHT = "https://testflight.apple.com/join/xxxxxx"; // Placeholder
+export const SPORIO_APPSTORE = "https://apps.apple.com/tr/app/sporio/id6762560027?l=tr";
 
 export const getLang = () => (typeof window !== "undefined" ? localStorage.getItem("eclabs_lang") || "tr" : "tr");
 export const setLangPersisted = (lang) => {
