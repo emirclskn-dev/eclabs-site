@@ -8,7 +8,7 @@ export const DisabledCTA = ({ label }) => {
         <button
             type="button"
             aria-disabled="true"
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 text-white/70 text-[10px] font-bold rounded-full uppercase tracking-widest cursor-not-allowed border border-white/10"
+            className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 text-white/70 text-[10px] font-bold rounded-full uppercase tracking-widest cursor-not-allowed border border-white/10 min-h-[44px]"
             onMouseEnter={() => playUiFx("hover")}
             onClick={(e) => {
                 e.preventDefault();
@@ -26,7 +26,7 @@ export const SecondaryCTA = ({ href, label }) => {
     return (
         <a
             href={href}
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10 text-white/80 hover:text-white hover:border-white/20 transition-colors"
+            className="inline-flex items-center justify-center px-6 py-3.5 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10 text-white/80 hover:text-white hover:border-white/20 transition-colors min-h-[44px]"
             onMouseEnter={() => playUiFx("hover")}
             onClick={() => playUiFx("click")}
         >
@@ -49,7 +49,7 @@ export const PrimaryCTA = ({ href, label, theme = "cyan" }) => {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center justify-center px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-black transition-all duration-300 ${themeStyles[theme]}`}
+            className={`inline-flex items-center justify-center px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-black transition-all duration-300 min-h-[44px] ${themeStyles[theme]}`}
             onMouseEnter={() => playUiFx("hover")}
             onClick={() => playUiFx("click")}
         >

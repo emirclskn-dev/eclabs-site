@@ -157,11 +157,34 @@ function Home() {
         };
 
         let touchY = 0;
-        const handleTouchStart = (e) => (touchY = e.touches[0].clientY);
+        let touchStartY = 0;
+        const handleTouchStart = (e) => {
+            touchY = e.touches[0].clientY;
+            touchStartY = e.touches[0].clientY;
+        };
         const handleTouchMove = (e) => {
             const delta = touchY - e.touches[0].clientY;
             targetScroll.current = Math.min(Math.max(targetScroll.current + delta * 0.001, 0), 1);
             touchY = e.touches[0].clientY;
+        };
+        const handleTouchEnd = () => {
+            const swipeDelta = touchStartY - touchY;
+            const swipeThreshold = 50;
+            
+            if (Math.abs(swipeDelta) > swipeThreshold) {
+                const targets = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0];
+                const currentIndex = targets.findIndex(t => Math.abs(t - targetScroll.current) < 0.15);
+                
+                if (swipeDelta > 0 && currentIndex < targets.length - 1) {
+                    // Swipe up - next scene
+                    targetScroll.current = targets[currentIndex + 1];
+                    setActiveScene(currentIndex + 1);
+                } else if (swipeDelta < 0 && currentIndex > 0) {
+                    // Swipe down - previous scene
+                    targetScroll.current = targets[currentIndex - 1];
+                    setActiveScene(currentIndex - 1);
+                }
+            }
         };
 
         const handleMouseMove = (e) => {
@@ -195,6 +218,7 @@ function Home() {
         window.addEventListener("wheel", handleWheel, { passive: true });
         window.addEventListener("touchstart", handleTouchStart, { passive: true });
         window.addEventListener("touchmove", handleTouchMove, { passive: true });
+        window.addEventListener("touchend", handleTouchEnd, { passive: true });
         if (window.innerWidth >= 768) window.addEventListener("mousemove", handleMouseMove);
         if (window.innerWidth < 768) {
             if (typeof window.DeviceOrientationEvent !== "undefined" && typeof window.DeviceOrientationEvent.requestPermission === "function") {
@@ -209,6 +233,7 @@ function Home() {
             window.removeEventListener("wheel", handleWheel);
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchmove", handleTouchMove);
+            window.removeEventListener("touchend", handleTouchEnd);
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("deviceorientation", handleDeviceOrientation, true);
             window.removeEventListener("touchstart", requestOrientationPermission);
